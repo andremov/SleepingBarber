@@ -11,50 +11,60 @@ package SleepingBarber;
  */
 public class Barber implements Runnable {
 
-	int currentState;
-	
-	public Barber() {
-		currentState = 2;
+    int currentState;
+
+    public Barber() {
+	currentState = 2;
+    }
+
+    @Override
+    public void run() {
+	while (true) {
+
+	    currentState = 0;
+	    System.out.println("Barber is waiting for customers.");
+	    SleepingBarber.custReady.SLwait();
+
+	    currentState = 1;
+	    System.out.println("Barber is waiting to check seats.");
+	    SleepingBarber.accessSeats.SLwait();
+	    System.out.println("Barber checks seats.");
+	    SleepingBarber.freeSeats += 1;
+
+	    currentState = 2;
+	    System.out.println("Barber is ready to cut.");
+	    SleepingBarber.barberReady.SLsignal();
+	    SleepingBarber.accessSeats.SLsignal();
+
+	    currentState = 3;
+	    
+	}
+    }
+
+    public void forceWait() {
+	try {
+	    Thread.sleep(1000);
+	} catch (Exception e) {
+	}
+    }
+
+    public String toString() {
+	if (currentState == 0) {
+	    return "Barber State 0: Waiting for customers.";
 	}
 
-	@Override
-	public void run() {
-		while (true) {
-			
-			currentState = 0;
-			SleepingBarber.custReady.SLwait();
-			currentState = 1;
-			SleepingBarber.accessSeats.SLwait();
-			
-			SleepingBarber.freeSeats += 1;
-			
-			currentState = 2;
-			SleepingBarber.barberReady.SLsignal();
-			currentState = 3;
-			SleepingBarber.accessSeats.SLsignal();
-			currentState = 4;
-			// TODO: cut hair
-		}
+	if (currentState == 1) {
+	    return "Barber State 1: Waiting for seats.";
 	}
-	
-	public String toString() {
-		if (currentState == 0) 
-			return "State 0: Waiting for customers.";
-		
-		if (currentState == 1)
-			return "State 1: Waiting for seat.";
-		
-		if (currentState == 2)
-			return "State 2: ?";
-		
-		if (currentState == 3)
-			return "State 3: ?";
-		
-		if (currentState == 4)
-			return "State 4: Ready.";
-		
-		return "State -1: Error.";
-		
+
+	if (currentState == 2) {
+	    return "Barber State 2: Cutting hair.";
 	}
+
+
+
+	return "Barber State -1: Error.";
+
+    }
 
 }
