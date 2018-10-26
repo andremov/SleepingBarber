@@ -9,11 +9,12 @@ package SleepingBarber;
  *
  * @author andresmovilla
  */
-public class Barber implements Runnable {
+public class Barber extends Person implements Runnable {
 
     int currentState;
 
     public Barber() {
+	super();
 	currentState = 2;
     }
 
@@ -37,7 +38,7 @@ public class Barber implements Runnable {
 	    SleepingBarber.accessSeats.SLsignal();
 
 	    currentState = 3;
-	    
+
 	}
     }
 
@@ -60,8 +61,6 @@ public class Barber implements Runnable {
 	if (currentState == 2) {
 	    return "Barber State 2: Cutting hair.";
 	}
-
-
 
 	return "Barber State -1: Error.";
 

@@ -6,11 +6,12 @@
 package SleepingBarber;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 /**
  *
@@ -23,10 +24,24 @@ public class SleepingBarber extends JFrame {
     public static Stoplight custReady;
 
     public static int freeSeats;
-    
-    static int cc = 0;
+
+    static int customerCount = 0;
 
     public static boolean uiReady = false;
+
+    public static ArrayList<Person> people;
+
+//    JLabel barberReadyLabel;
+//    JLabel accessSeatsLabel;
+//    JLabel custReadyLabel;
+//    JLabel freeSeatsLabel;
+    Screen screen;
+
+    JButton addCustomerBtn;
+    JButton addBarberBtn;
+
+    int numBarbers;
+    int numCustomers;
 
     public static void main(String[] args) {
 	barberReady = new Stoplight(0, Stoplight.MODE_BINARY);
@@ -34,56 +49,40 @@ public class SleepingBarber extends JFrame {
 	custReady = new Stoplight(0, Stoplight.MODE_COUNTER);
 	freeSeats = 10;
 
+	people = new ArrayList<>();
+
+	Assets.loadAssets();
+
 	SleepingBarber sb = new SleepingBarber();
 
 	while (!uiReady) {
-
 	}
 
 	addBarber();
 
-	while (true) {
-	    sb.update();
-
-	    try {
-		Thread.sleep(100);
-	    } catch (Exception e) {
-	    }
-	}
+	sb.setVisible(true);
+	sb.startScreenThread();
 
     }
 
     public static void addBarber() {
-
-	new Thread(new Barber()).start();
+	Barber b = new Barber();
+	new Thread(b).start();
+	people.add(b);
 
     }
 
     public static void addCustomer() {
-	cc++;
-	new Thread(new Customer(cc)).start();
-
+	Customer c = new Customer(customerCount);
+	new Thread(c).start();
+	people.add(c);
+	customerCount++;
     }
 
-    //////////////////////////////////////////////////////////////////////////////
-    //				    	JFRAME					//	
-    //////////////////////////////////////////////////////////////////////////////
-    JLabel barberReadyLabel;
-    JLabel accessSeatsLabel;
-    JLabel custReadyLabel;
-    JLabel freeSeatsLabel;
-
-    JButton addCustomer;
-    JButton addBarber;
-
-    int numBarbers;
-    int numCustomers;
-
     public SleepingBarber() {
-
+	setSize(Tools.getWindowSize());
 	setLocationRelativeTo(null);
 	setLayout(null);
-	setSize(300, 350);
 	setTitle("Sleeping Barber Problem");
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -92,64 +91,79 @@ public class SleepingBarber extends JFrame {
 
 	init();
 
-	setVisible(true);
-    }
-
-    public void update() {
-	barberReadyLabel.setText("Barber ready:\n" + barberReady.toString());
-	barberReadyLabel.setBackground(barberReady.getColor());
-
-	accessSeatsLabel.setText("Access Seats:\n" + accessSeats.toString());
-	accessSeatsLabel.setBackground(accessSeats.getColor());
-
-	custReadyLabel.setText("Customer ready:\n" + custReady.toString());
-	custReadyLabel.setBackground(custReady.getColor());
-
-	freeSeatsLabel.setText("# Free Seats:\n" + freeSeats);
-	freeSeatsLabel.setBackground(freeSeats == 0 ? new Color(147, 61, 65) : new Color(154, 205, 50));
+	setVisible(false);
     }
 
     public void init() {
-	barberReadyLabel = new JLabel("uno");
-	barberReadyLabel.setSize(120, 80);
-	barberReadyLabel.setLocation(5, 5);
-	barberReadyLabel.setOpaque(true);
-	barberReadyLabel.setBackground(Color.yellow);
-	add(barberReadyLabel);
 
-	accessSeatsLabel = new JLabel("dos");
-	accessSeatsLabel.setSize(120, 80);
-	accessSeatsLabel.setLocation(125, 5);
-	accessSeatsLabel.setOpaque(true);
-	accessSeatsLabel.setBackground(Color.yellow);
-	add(accessSeatsLabel);
-
-	custReadyLabel = new JLabel("tres");
-	custReadyLabel.setSize(120, 80);
-	custReadyLabel.setLocation(5, 95);
-	custReadyLabel.setOpaque(true);
-	custReadyLabel.setBackground(Color.yellow);
-	add(custReadyLabel);
-
-	freeSeatsLabel = new JLabel("cuatro");
-	freeSeatsLabel.setSize(120, 80);
-	freeSeatsLabel.setLocation(125, 95);
-	freeSeatsLabel.setOpaque(true);
-	freeSeatsLabel.setBackground(Color.yellow);
-	add(freeSeatsLabel);
-
-	addCustomer = new JButton("Add Customer");
-	addCustomer.setSize(210, 80);
-	addCustomer.setLocation(5, 185);
-	addCustomer.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		addCustomer();
-	    }
+//	add(new Placeholder(1));
+//	add(new Placeholder(2));
+//	add(new Placeholder(3));
+//	add(new Placeholder(4));
+//	add(new Placeholder(5));
+	addCustomerBtn = new JButton("Add Customer");
+	addCustomerBtn.setBounds(Tools.getModuleSize(3));
+	addCustomerBtn.setFocusable(false);
+	addCustomerBtn.addActionListener((ActionEvent e) -> {
+	    addCustomer();
 	});
-	add(addCustomer);
+	add(addCustomerBtn);
+
+	addBarberBtn = new JButton("Add Barber");
+	addBarberBtn.setBounds(Tools.getModuleSize(4));
+	addBarberBtn.setFocusable(false);
+	addBarberBtn.addActionListener((ActionEvent e) -> {
+	    addBarber();
+	});
+	add(addBarberBtn);
+
+	screen = new Screen();
+	add(screen);
 
 	uiReady = true;
     }
 
+    public void startScreenThread() {
+	new Thread(screen).start();
+    }
+
+    public static BufferedImage getDisplay() {
+	BufferedImage img = Tools.newImage(3);
+	Graphics g = img.getGraphics();
+
+	int h = Tools.getScreenSize().height;
+	int w = Tools.getScreenSize().width;
+
+	g.setColor(Color.GREEN);
+	g.fillRect(0, 0, w, h);
+
+	for (int i = 0; i < people.size(); i++) {
+	    g.drawImage(people.get(i).getDisplay(), 300, 100, null);
+	}
+
+	return img;
+    }
+
+    public static BufferedImage getInterface() {
+	BufferedImage img = Tools.newImage(2);
+	Graphics g = img.getGraphics();
+
+	int h = Tools.getScreenSize().height;
+	int w = Tools.getInterfaceSize();
+
+	g.setColor(Color.red);
+	g.fillRect(0, 0, w, h);
+
+	return img;
+    }
+
+    public static BufferedImage getImage() {
+	BufferedImage img = Tools.newImage(1);
+	Graphics g = img.getGraphics();
+
+	g.drawImage(getDisplay(), 0, 0, null);
+	//g.drawImage(getInterface(), 0, 0, null);
+
+	return img;
+    }
 }

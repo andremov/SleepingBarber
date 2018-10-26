@@ -9,12 +9,13 @@ package SleepingBarber;
  *
  * @author andresmovilla
  */
-public class Customer implements Runnable {
+public class Customer extends Person implements Runnable {
 
     int currentState;
     int id;
 
     public Customer(int id) {
+	super();
 	this.currentState = -1;
 	this.id = id;
     }
@@ -25,7 +26,7 @@ public class Customer implements Runnable {
 	currentState = 0;
 	System.out.println(this.id + ": Customer arrived.");
 	SleepingBarber.accessSeats.SLwait();
-	
+
 	if (SleepingBarber.freeSeats > 0) {
 
 	    System.out.println(this.id + ": Customer sits down.");
@@ -34,7 +35,6 @@ public class Customer implements Runnable {
 	    SleepingBarber.custReady.SLsignal();
 	    SleepingBarber.accessSeats.SLsignal();
 
-	    
 	    currentState = 2;
 	    System.out.println(this.id + ": Customer is waiting for barber.");
 	    SleepingBarber.barberReady.SLwait();
@@ -44,7 +44,7 @@ public class Customer implements Runnable {
 
 	    currentState = 5;
 	    System.out.println(this.id + ": Customer finished hair cut.");
-	    
+
 	} else {
 	    System.out.println(this.id + ": Customer leaves.");
 	    currentState = 3;
@@ -86,6 +86,6 @@ public class Customer implements Runnable {
 	}
 
 	return "Customer State -1: Error.";
-
     }
+
 }
