@@ -14,8 +14,8 @@ public class Customer extends Person implements Runnable {
     int currentState;
     int id;
 
-    public Customer(int id) {
-	super();
+    public Customer(int id, Point p) {
+	super(p);
 	this.currentState = -1;
 	this.id = id;
     }

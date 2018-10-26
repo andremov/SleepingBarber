@@ -31,10 +31,13 @@ public class SleepingBarber extends JFrame {
 
     public static ArrayList<Person> people;
 
+    public static ArrayList<Point> points;
+    
 //    JLabel barberReadyLabel;
 //    JLabel accessSeatsLabel;
 //    JLabel custReadyLabel;
 //    JLabel freeSeatsLabel;
+    
     Screen screen;
 
     JButton addCustomerBtn;
@@ -50,14 +53,19 @@ public class SleepingBarber extends JFrame {
 	freeSeats = 10;
 
 	people = new ArrayList<>();
-
+	points = new ArrayList<>();
+	
 	Assets.loadAssets();
 
 	SleepingBarber sb = new SleepingBarber();
 
 	while (!uiReady) {
 	}
-
+	
+	points.add(new Point(-100,150));
+	
+	points.add(new Point(200,150));
+	
 	sb.addBarber();
 
 	sb.setVisible(true);
@@ -66,7 +74,7 @@ public class SleepingBarber extends JFrame {
     }
 
     public void addBarber() {
-	Barber b = new Barber();
+	Barber b = new Barber(new Point(200,200));
 	new Thread(b).start();
 	people.add(b);
 
@@ -74,7 +82,7 @@ public class SleepingBarber extends JFrame {
 
     public void addCustomer() {
 	addCustomerBtn.setEnabled(false);
-	Customer c = new Customer(customerCount);
+	Customer c = new Customer(customerCount, points.get(0));
 	new Thread(c).start();
 	people.add(c);
 	customerCount++;

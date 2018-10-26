@@ -13,8 +13,8 @@ public class Barber extends Person implements Runnable {
 
     int currentState;
 
-    public Barber() {
-	super();
+    public Barber(Point p) {
+	super(p);
 	currentState = 2;
     }
 
