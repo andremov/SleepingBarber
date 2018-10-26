@@ -58,21 +58,22 @@ public class SleepingBarber extends JFrame {
 	while (!uiReady) {
 	}
 
-	addBarber();
+	sb.addBarber();
 
 	sb.setVisible(true);
 	sb.startScreenThread();
 
     }
 
-    public static void addBarber() {
+    public void addBarber() {
 	Barber b = new Barber();
 	new Thread(b).start();
 	people.add(b);
 
     }
 
-    public static void addCustomer() {
+    public void addCustomer() {
+	addCustomerBtn.setEnabled(false);
 	Customer c = new Customer(customerCount);
 	new Thread(c).start();
 	people.add(c);
@@ -101,6 +102,7 @@ public class SleepingBarber extends JFrame {
 //	add(new Placeholder(3));
 //	add(new Placeholder(4));
 //	add(new Placeholder(5));
+
 	addCustomerBtn = new JButton("Add Customer");
 	addCustomerBtn.setBounds(Tools.getModuleSize(3));
 	addCustomerBtn.setFocusable(false);
@@ -115,6 +117,7 @@ public class SleepingBarber extends JFrame {
 	addBarberBtn.addActionListener((ActionEvent e) -> {
 	    addBarber();
 	});
+	addBarberBtn.setEnabled(false);
 	add(addBarberBtn);
 
 	screen = new Screen();
