@@ -83,6 +83,7 @@ public class SleepingBarber extends JFrame {
     public void addCustomer() {
 	addCustomerBtn.setEnabled(false);
 	Customer c = new Customer(customerCount, points.get(0));
+	c.setGoal(points.get(1));
 	new Thread(c).start();
 	people.add(c);
 	customerCount++;
@@ -147,11 +148,26 @@ public class SleepingBarber extends JFrame {
 
 	g.setColor(Color.GREEN);
 	g.fillRect(0, 0, w, h);
-
-	for (int i = 0; i < people.size(); i++) {
-	    g.drawImage(people.get(i).getDisplay(), 300, 100, null);
+	
+	ArrayList<Person> ordered = new ArrayList<>();
+	while (people.size() > 0) {
+	    int minY = 10000;
+	    int pos = 0;
+	    for (int i = 0; i < people.size(); i++) {
+		if (people.get(i).getY() < minY){
+		    minY = people.get(i).getY();
+		    pos = i;
+		}
+	    }
+	    ordered.add(people.get(pos));
+	    people.remove(pos);
 	}
-
+	
+	people = ordered;
+	for (int i = 0; i < people.size(); i++) {
+	    g.drawImage(people.get(i).getDisplay(), people.get(i).getX(), people.get(i).getY(), null);
+	}
+	
 	return img;
     }
 

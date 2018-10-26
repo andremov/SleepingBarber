@@ -17,7 +17,7 @@ public abstract class Person {
     private float x;
     private float y;
     Point goal;
-    float walkingSpeed = 2.2f;
+    float walkingSpeed = 4.2f;
     float xStep, yStep;
     float remSteps;
 
@@ -41,7 +41,22 @@ public abstract class Person {
 	xStep = walkingSpeed * xPercent;
 	yStep = walkingSpeed * yPercent;
 
-	remSteps = dX / (xStep * walkingSpeed);
+	remSteps = dX / xStep;
+
+	if (Math.abs(dX) > Math.abs(dY)) {
+	    if (dX > 0) {
+		m.facing = Model.FACING_RIGHT;
+	    } else {
+		m.facing = Model.FACING_LEFT;
+	    }
+	} else {
+	    if (dY > 0) {
+		m.facing = Model.FACING_DOWN;
+	    } else {
+		m.facing = Model.FACING_UP;
+	    }
+	}
+	m.walking = true;
     }
 
     public void update() {
@@ -53,8 +68,9 @@ public abstract class Person {
 	    x = goal.getX();
 	    y = goal.getY();
 	    goal = null;
+	    m.walking = false;
 	} else {
-
+	    remSteps--;
 	    x += xStep;
 	    y += yStep;
 	}
