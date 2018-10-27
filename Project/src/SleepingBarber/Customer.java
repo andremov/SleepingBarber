@@ -29,10 +29,9 @@ public class Customer extends Person implements Runnable {
 	
 	SleepingBarber.accessSeats.SLwait();
 
-	if (SleepingBarber.freeSeats > 0) {
+	if (SleepingBarber.getNumFreeSeats() > 0) {
 
 	    this.setStatus("Sitting down.");
-	    SleepingBarber.freeSeats -= 1;
 	    this.setGoal(SleepingBarber.assignWaitingSeat());
 	    SleepingBarber.accessSeats.SLsignal();
 	    while (!readyForAction) { }
@@ -42,6 +41,7 @@ public class Customer extends Person implements Runnable {
 	    this.setStatus("Waiting for barber.");
 	    SleepingBarber.barberReady.SLwait();
 
+	    this.setStatus("Walking to barber.");
 	    this.setGoal(SleepingBarber.assignBarberSeat());
 	    while (!readyForAction) { }
 	    
@@ -49,6 +49,7 @@ public class Customer extends Person implements Runnable {
 	    try {
 		Thread.sleep(5000);
 	    } catch (Exception e) { }
+	    
 	    SleepingBarber.freeBarberSeat();
 	} else {
 	    SleepingBarber.accessSeats.SLsignal();

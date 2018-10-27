@@ -27,6 +27,7 @@ public abstract class DisplayObject {
     public int getY() {
 	return y;
     }
+    
     public abstract BufferedImage getImage();
     
 }
