@@ -5,27 +5,28 @@
  */
 package SleepingBarber;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
  *
  * @author Andrés Movilla
  */
-public class WaitingSeat extends Point {
+public abstract class DisplayObject {
     
-    public WaitingSeat(int x, int y) {
-	super(x, y);
-    }
-    
-    @Override
-    public BufferedImage getImage() {
-	BufferedImage img = Tools.newImage(4);
-	Graphics g = img.getGraphics();
-	
-	
+    protected int x, y;
 
-	return img;
+    public DisplayObject(int x, int y) {
+	this.x = x;
+	this.y = y;
     }
+    
+    public int getX() {
+	return x;
+    }
+
+    public int getY() {
+	return y;
+    }
+    public abstract BufferedImage getImage();
     
 }

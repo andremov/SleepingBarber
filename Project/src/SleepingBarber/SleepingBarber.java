@@ -31,11 +31,21 @@ public class SleepingBarber extends JFrame {
 
     public static ArrayList<Person> people;
 
-    public static ArrayList<Point> points;
-
     public static ArrayList<Tile> tiles;
 
     public static BufferedImage mapImage;
+    
+    public static Point enterPoint;
+    public static Point exitPoint;
+    
+    public static Point enterDoor;
+    public static Point exitDoor;
+    
+    public static ArrayList<BarberSeat> occupiedBarberSeats;
+    public static ArrayList<BarberSeat> freeBarberSeats;
+    
+    public static ArrayList<WaitingSeat> occupiedWaitingSeats;
+    public static ArrayList<WaitingSeat> freeWaitingSeats;
 
 //    JLabel barberReadyLabel;
 //    JLabel accessSeatsLabel;
@@ -48,6 +58,40 @@ public class SleepingBarber extends JFrame {
 
     int numBarbers;
     int numCustomers;
+    
+    public static void deleteCustomer(int id) {
+	for (int i = 0; i < people.size(); i++) {
+	    if (people.get(i) instanceof Customer) {
+		Customer c = (Customer) people.get(i);
+		if (c.id == id) {
+		    people.remove(i);
+		}
+	    }
+	}
+    }
+    
+    public static void freeBarberSeat() {
+	BarberSeat b = occupiedBarberSeats.remove(0);
+	freeBarberSeats.add(b);
+    }
+    
+    public static void freeWaitingSeat() {
+	WaitingSeat b = occupiedWaitingSeats.remove(0);
+	freeWaitingSeats.add(b);
+    }
+    
+    public static BarberSeat assignBarberSeat() {
+	freeWaitingSeat();
+	BarberSeat b = freeBarberSeats.remove(0);
+	occupiedBarberSeats.add(b);
+	return b;
+    }
+    
+    public static WaitingSeat assignWaitingSeat() {
+	WaitingSeat b = freeWaitingSeats.remove(0);
+	occupiedWaitingSeats.add(b);
+	return b;
+    }
 
     public static void main(String[] args) {
 	barberReady = new Stoplight(0, Stoplight.MODE_BINARY);
@@ -56,7 +100,10 @@ public class SleepingBarber extends JFrame {
 	freeSeats = 10;
 
 	people = new ArrayList<>();
-	points = new ArrayList<>();
+	occupiedBarberSeats = new ArrayList<>();
+	freeBarberSeats = new ArrayList<>();
+	occupiedWaitingSeats = new ArrayList<>();
+	freeWaitingSeats = new ArrayList<>();
 	tiles = new ArrayList<>();
 
 	try {
@@ -73,9 +120,12 @@ public class SleepingBarber extends JFrame {
 	sb.createBasicMap();
 	createMapImage();
 
-	points.add(new Point(-100, 150));
+	enterPoint = new Point(-100, 150);
+	enterDoor = new Point(200, 150);
 
-	points.add(new Point(200, 150));
+	exitPoint = new Point(800, 150);
+	exitDoor = new Point(200, 150);
+
 
 	sb.addBarber();
 
@@ -117,8 +167,8 @@ public class SleepingBarber extends JFrame {
 
     public void addCustomer() {
 	addCustomerBtn.setEnabled(false);
-	Customer c = new Customer(customerCount, points.get(0));
-	c.setGoal(points.get(1));
+	Customer c = new Customer(customerCount, enterPoint);
+	c.setGoal(enterDoor);
 	new Thread(c).start();
 	people.add(c);
 	customerCount++;
@@ -206,23 +256,40 @@ public class SleepingBarber extends JFrame {
 
 	g.drawImage(mapImage, displaceX, displaceY, null);
 
-	ArrayList<Person> ordered = new ArrayList<>();
-	while (people.size() > 0) {
+	ArrayList<DisplayObject> everything = new ArrayList<>();
+	for (int i = 0; i < people.size(); i++) {
+	    everything.add(people.get(i));
+	}
+	for (int i = 0; i < occupiedBarberSeats.size(); i++) {
+	    everything.add(occupiedBarberSeats.get(i));
+	}
+	for (int i = 0; i < freeBarberSeats.size(); i++) {
+	    everything.add(freeBarberSeats.get(i));
+	}
+	for (int i = 0; i < occupiedWaitingSeats.size(); i++) {
+	    everything.add(occupiedWaitingSeats.get(i));
+	}
+	for (int i = 0; i < freeWaitingSeats.size(); i++) {
+	    everything.add(freeWaitingSeats.get(i));
+	}
+	
+	ArrayList<DisplayObject> ordered = new ArrayList<>();
+	while (everything.size() > 0) {
 	    int minY = 10000;
 	    int pos = 0;
-	    for (int i = 0; i < people.size(); i++) {
-		if (people.get(i).getY() < minY) {
-		    minY = people.get(i).getY();
+	    for (int i = 0; i < everything.size(); i++) {
+		if (everything.get(i).getY() < minY) {
+		    minY = everything.get(i).getY();
 		    pos = i;
 		}
 	    }
-	    ordered.add(people.get(pos));
-	    people.remove(pos);
+	    ordered.add(everything.get(pos));
+//	    people.remove(pos);
 	}
 
-	people = ordered;
-	for (int i = 0; i < people.size(); i++) {
-	    g.drawImage(people.get(i).getDisplay(), people.get(i).getX() + displaceX, people.get(i).getY() + displaceY, null);
+//	people = ordered;
+	for (int i = 0; i < ordered.size(); i++) {
+	    g.drawImage(ordered.get(i).getImage(), ordered.get(i).getX() + displaceX, ordered.get(i).getY() + displaceY, null);
 	}
 
 	return img;

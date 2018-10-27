@@ -15,7 +15,6 @@ public class Barber extends Person implements Runnable {
 
     public Barber(Point p) {
 	super(p);
-	currentState = 2;
     }
 
     @Override
@@ -36,8 +35,6 @@ public class Barber extends Person implements Runnable {
 	    this.setStatus("Ready to cut.");
 	    SleepingBarber.barberReady.SLsignal();
 	    SleepingBarber.accessSeats.SLsignal();
-
-	    currentState = 3;
 
 	}
     }

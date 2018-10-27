@@ -13,25 +13,30 @@ import java.awt.image.BufferedImage;
  *
  * @author Andrés Movilla
  */
-public class Person {
+public class Person extends DisplayObject {
 
-    private Model m;
-    private float x;
-    private float y;
+    private Color darkBlue = new Color(	0, 124, 189);
+    private Color lightBlue = new Color(155, 221, 255);
+    
+    private Color darkRed = new Color(227, 95, 52);
+    private Color lightRed = new Color(236, 119, 120);
+    
+    private final Model m;
     private Point goal;
     private final float walkingSpeed = 4.2f;
     private float xStep, yStep;
     private float remSteps;
+    protected boolean readyForAction;
     
     String status;
     final String name;
 
     public Person(Point p) {
+	super(p.getX(), p.getY());
 	m = Tools.createModel(this instanceof Barber);
-	this.x = p.getX();
-	this.y = p.getY();
 	name = Tools.randomName(this instanceof Barber);
 	status = "";
+	readyForAction = true;
     }
 
     public void setStatus(String status) {
@@ -39,6 +44,12 @@ public class Person {
     }
 
     public void setGoal(Point goal) {
+	if (!readyForAction) {
+	    System.err.println("WHAT IS HAPPENING");
+	    return;
+	}
+	
+	readyForAction = false;
 	this.goal = goal;
 
 	float dX = goal.getX() - x;
@@ -80,16 +91,12 @@ public class Person {
 	    y = goal.getY();
 	    goal = null;
 	    m.walking = false;
+	    readyForAction = true;
 	} else {
 	    remSteps--;
 	    x += xStep;
 	    y += yStep;
 	}
-    }
-
-    public BufferedImage getDisplay() {
-	update();
-	return m.getDisplay();
     }
 
     public BufferedImage getInterfaceImage() {
@@ -100,10 +107,10 @@ public class Person {
 	int border = 3;
 	int radius = 20;
 	
-	g.setColor(Color.black);
+	g.setColor(this instanceof Barber? darkBlue : darkRed);
 	g.fillRoundRect(padding, padding, Tools.getInterfaceSize() - (padding * 2), Tools.getInterfacePersonModuleSize() - (padding * 2), radius, radius);
 	
-	g.setColor(Color.white);
+	g.setColor(this instanceof Barber? lightBlue : lightRed);
 	g.fillRoundRect((padding + border), (padding + border), Tools.getInterfaceSize() - ((padding + border) * 2), Tools.getInterfacePersonModuleSize() - ((padding + border) * 2), 10, 10);
 	
 	g.setColor(Color.black);
@@ -125,6 +132,12 @@ public class Person {
 
     public int getY() {
 	return (int) y;
+    }
+
+    @Override
+    public BufferedImage getImage() {
+	update();
+	return m.getDisplay();
     }
 
 }

@@ -16,7 +16,6 @@ public class Customer extends Person implements Runnable {
 
     public Customer(int id, Point p) {
 	super(p);
-	this.currentState = -1;
 	this.id = id;
     }
 
@@ -25,32 +24,41 @@ public class Customer extends Person implements Runnable {
 
 	currentState = 0;
 	this.setStatus("Arriving...");
+	
+	while (!readyForAction) { }
+	
 	SleepingBarber.accessSeats.SLwait();
 
 	if (SleepingBarber.freeSeats > 0) {
 
 	    this.setStatus("Sitting down.");
 	    SleepingBarber.freeSeats -= 1;
-	    currentState = 1;
-	    SleepingBarber.custReady.SLsignal();
+	    this.setGoal(SleepingBarber.assignWaitingSeat());
 	    SleepingBarber.accessSeats.SLsignal();
+	    while (!readyForAction) { }
+	    
+	    SleepingBarber.custReady.SLsignal();
 
-	    currentState = 2;
 	    this.setStatus("Waiting for barber.");
 	    SleepingBarber.barberReady.SLwait();
 
+	    this.setGoal(SleepingBarber.assignBarberSeat());
+	    while (!readyForAction) { }
+	    
 	    this.setStatus("Getting hair cut.");
-	    currentState = 4;
-
-	    currentState = 5;
-	    this.setStatus("Leaving...");
-
+	    try {
+		Thread.sleep(5000);
+	    } catch (Exception e) { }
+	    SleepingBarber.freeBarberSeat();
 	} else {
-	    this.setStatus("Leaving...");
-	    currentState = 3;
 	    SleepingBarber.accessSeats.SLsignal();
-	    // TODO: leave
 	}
+	this.setStatus("Leaving...");
+	this.setGoal(SleepingBarber.exitDoor);
+	while (!readyForAction) { }
+	this.setGoal(SleepingBarber.exitPoint);
+	while (!readyForAction) { }
+	SleepingBarber.deleteCustomer(id);
     }
 
     public void forceWait() {

@@ -5,29 +5,20 @@
  */
 package SleepingBarber;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author Andrés Movilla
  */
-public class Point {
+public class Point extends DisplayObject {
     
-    private final int x;
-    private final int y;
-
     public Point(int x, int y) {
-	this.x = x;
-	this.y = y;
+	super(x, y);
     }
 
-    public int getX() {
-	return x;
-    }
-
-    public int getY() {
-	return y;
-    }
-    
-    public boolean eq(int x, int y) {
-	return (this.x == x) && (this.y == y);
+    @Override
+    public BufferedImage getImage() {
+	return null;
     }
 }

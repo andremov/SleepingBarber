@@ -66,7 +66,7 @@ public class Model {
     public BufferedImage getDisplay() {
 	BufferedImage img = Tools.newImage(4);
 	Graphics g = img.getGraphics();
-//	g.fillRect(0, 0, 300, 300);
+	
 	frame++;
 	frame = frame % maxFrame;
 
