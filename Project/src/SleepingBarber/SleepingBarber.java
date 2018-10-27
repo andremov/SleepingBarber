@@ -109,13 +109,12 @@ public class SleepingBarber extends JFrame {
 	try {
 	    Assets.loadAssets();
 	} catch (Exception e) {
-	    System.out.println("Error!");
+	    System.err.println("Error loading assets!");
 	}
 
 	SleepingBarber sb = new SleepingBarber();
 
-	while (!uiReady) {
-	}
+	while (!uiReady) { }
 
 	sb.createBasicMap();
 	createMapImage();
@@ -126,44 +125,59 @@ public class SleepingBarber extends JFrame {
 	exitPoint = new Point(800, 150);
 	exitDoor = new Point(200, 150);
 
-
-	sb.addBarber();
+	
+	addWaitingSeat(100, 60);
+	addBarberSeat(250,80);
 
 	sb.setVisible(true);
 	sb.startScreenThread();
 
     }
+    
+    public static void addWaitingSeat(int x, int y) {
+	freeWaitingSeats.add(new WaitingSeat(x, y));
+    }
+    
+    public static void addBarberSeat(int x, int y) {
+	freeBarberSeats.add(new BarberSeat(x, y));
+	
+	Barber b = new Barber(new Point(x+20, y+60));
+	new Thread(b).start();
+	people.add(b);
+    }
 
     public void createBasicMap() {
-	int[][] map = new int[][]{
-	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2},
-	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
-	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
-	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
-	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
-	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
-	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
-	    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2},
-	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},};
-
-	for (int i = 0; i < map.length; i++) {
-	    for (int j = 0; j < map[i].length; j++) {
-		tiles.add(new Tile(j, i, map[i][j]));
+//	int[][] map = new int[][]{
+//	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//	    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2},
+//	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+//	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+//	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+//	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+//	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+//	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+//	    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2},
+//	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+//	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+//	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+//	};
+	int rows = 20;
+	int columns = 20;
+	
+	for (int i = 0; i < rows; i++) {
+	    for (int j = 0; j < columns; j++) {
+		tiles.add(new Tile(j, i, 1));
 	    }
 	}
     }
 
-    public void addBarber() {
-	Barber b = new Barber(new Point(400, 200));
-	new Thread(b).start();
-	people.add(b);
-
-    }
+//    public void addBarber() {
+//	Barber b = new Barber(new Point(400, 200));
+//	new Thread(b).start();
+//	people.add(b);
+//    }
 
     public void addCustomer() {
 	addCustomerBtn.setEnabled(false);
@@ -208,7 +222,7 @@ public class SleepingBarber extends JFrame {
 	addBarberBtn.setBounds(Tools.getModuleSize(4));
 	addBarberBtn.setFocusable(false);
 	addBarberBtn.addActionListener((ActionEvent e) -> {
-	    addBarber();
+//	    addBarber();
 	});
 	addBarberBtn.setEnabled(false);
 	add(addBarberBtn);

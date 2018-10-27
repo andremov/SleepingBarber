@@ -39,28 +39,4 @@ public class Barber extends Person implements Runnable {
 	}
     }
 
-    public void forceWait() {
-	try {
-	    Thread.sleep(1000);
-	} catch (Exception e) {
-	}
-    }
-
-    public String toString() {
-	if (currentState == 0) {
-	    return "Barber State 0: Waiting for customers.";
-	}
-
-	if (currentState == 1) {
-	    return "Barber State 1: Waiting for seats.";
-	}
-
-	if (currentState == 2) {
-	    return "Barber State 2: Cutting hair.";
-	}
-
-	return "Barber State -1: Error.";
-
-    }
-
 }

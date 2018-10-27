@@ -7,6 +7,8 @@ package SleepingBarber;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -95,6 +97,30 @@ public class Screen extends Canvas implements Runnable {
 		}
 	    }
 
+	});
+
+	addKeyListener(new KeyAdapter() {
+	    @Override
+	    public void keyPressed(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		    case KeyEvent.VK_UP:
+			mapDisplaceY --;
+			break;
+			
+		    case KeyEvent.VK_RIGHT:
+			mapDisplaceX ++;
+			break;
+		
+		    case KeyEvent.VK_LEFT:
+			mapDisplaceX --;
+			break;
+		
+		    case KeyEvent.VK_DOWN:
+			mapDisplaceY ++;
+			break;
+			
+		}
+	    }
 	});
     }
 

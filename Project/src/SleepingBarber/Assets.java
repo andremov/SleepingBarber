@@ -22,6 +22,8 @@ public abstract class Assets {
     private static Image[] tiles;
     private static Image[][] humanParts;
     private static Image scissors;
+    private static Image waitingChair;
+    private static Image barberChair;
     private static final int[] MAX_PARTS = {12, 12, 16, 12};
 
     public static int PART_HAIR = 0;
@@ -45,6 +47,12 @@ public abstract class Assets {
 	loadedParts[1] = ImageIO.read(new File("assets/heads.png"));
 	loadedParts[2] = ImageIO.read(new File("assets/shirts.png"));
 	loadedParts[3] = ImageIO.read(new File("assets/pants.png"));
+	
+	barberChair = ImageIO.read(new File("assets/chair1.png"));
+	barberChair = barberChair.getScaledInstance((int) (SCALED_TILE_SIZE / 1.8f), (int) ((64*SIZE_MULT) / 1.8f), 0);
+	
+	waitingChair = ImageIO.read(new File("assets/chair2.png"));
+	waitingChair = waitingChair.getScaledInstance((int) (SCALED_TILE_SIZE / 1.8f), (int) ((64*SIZE_MULT) / 1.8f), 0);
 
 	scissors = ImageIO.read(new File("assets/scissors.png"));
 	scissors = scissors.getScaledInstance((int) (SCALED_TILE_SIZE / 1.8f), (int) (SCALED_TILE_SIZE / 1.8f), 0);
@@ -82,6 +90,14 @@ public abstract class Assets {
 
     public static Image getScissors() {
 	return scissors;
+    }
+
+    public static Image getWaitingChair() {
+	return waitingChair;
+    }
+
+    public static Image getBarberChair() {
+	return barberChair;
     }
 
     public static Image getHumanPart(int id) {

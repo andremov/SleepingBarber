@@ -23,7 +23,7 @@ public class WaitingSeat extends Point {
 	BufferedImage img = Tools.newImage(4);
 	Graphics g = img.getGraphics();
 	
-	
+	g.drawImage(Assets.getWaitingChair(), 0, 0, null);
 
 	return img;
     }

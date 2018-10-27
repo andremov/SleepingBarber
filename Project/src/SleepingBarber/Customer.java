@@ -61,39 +61,4 @@ public class Customer extends Person implements Runnable {
 	SleepingBarber.deleteCustomer(id);
     }
 
-    public void forceWait() {
-	try {
-	    Thread.sleep(1000);
-	} catch (Exception e) {
-	}
-    }
-
-    public String toString() {
-	if (currentState == 0) {
-	    return "Customer State 0: Waiting to check seats.";
-	}
-
-	if (currentState == 1) {
-	    return "Customer State 1: Ready for barber.";
-	}
-
-	if (currentState == 2) {
-	    return "Customer State 2: Waiting for barber";
-	}
-
-	if (currentState == 3) {
-	    return "Customer State 3: Left.";
-	}
-
-	if (currentState == 4) {
-	    return "Customer State 4: Getting hair cut.";
-	}
-
-	if (currentState == 5) {
-	    return "Customer State 5: Finished hair cut.";
-	}
-
-	return "Customer State -1: Error.";
-    }
-
 }
