@@ -44,7 +44,7 @@ public abstract class Tools {
 	    case 3:
 		return new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
 	    case 4:
-		return new BufferedImage(16*4, 32*4, BufferedImage.TYPE_INT_ARGB);
+		return new BufferedImage(Assets.SCALED_TILE_SIZE, (int)(Assets.SCALED_TILE_SIZE*2.5f), BufferedImage.TYPE_INT_ARGB);
 	    default:
 		return null;
 	}

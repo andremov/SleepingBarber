@@ -32,12 +32,15 @@ public class SleepingBarber extends JFrame {
     public static ArrayList<Person> people;
 
     public static ArrayList<Point> points;
-    
+
+    public static ArrayList<Tile> tiles;
+
+    public static BufferedImage mapImage;
+
 //    JLabel barberReadyLabel;
 //    JLabel accessSeatsLabel;
 //    JLabel custReadyLabel;
 //    JLabel freeSeatsLabel;
-    
     Screen screen;
 
     JButton addCustomerBtn;
@@ -54,18 +57,26 @@ public class SleepingBarber extends JFrame {
 
 	people = new ArrayList<>();
 	points = new ArrayList<>();
-	
-	Assets.loadAssets();
+	tiles = new ArrayList<>();
+
+	try {
+	    Assets.loadAssets();
+	} catch (Exception e) {
+	    System.out.println("Error!");
+	}
 
 	SleepingBarber sb = new SleepingBarber();
 
 	while (!uiReady) {
 	}
-	
-	points.add(new Point(-100,150));
-	
-	points.add(new Point(200,150));
-	
+
+	sb.createBasicMap();
+	createMapImage();
+
+	points.add(new Point(-100, 150));
+
+	points.add(new Point(200, 150));
+
 	sb.addBarber();
 
 	sb.setVisible(true);
@@ -73,8 +84,32 @@ public class SleepingBarber extends JFrame {
 
     }
 
+    public void createBasicMap() {
+	int[][] map = new int[][]{
+	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2},
+	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+	    {1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2},
+	    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2},
+	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},};
+
+	for (int i = 0; i < map.length; i++) {
+	    for (int j = 0; j < map[i].length; j++) {
+		tiles.add(new Tile(j, i, map[i][j]));
+	    }
+	}
+    }
+
     public void addBarber() {
-	Barber b = new Barber(new Point(200,200));
+	Barber b = new Barber(new Point(400, 200));
 	new Thread(b).start();
 	people.add(b);
 
@@ -111,7 +146,6 @@ public class SleepingBarber extends JFrame {
 //	add(new Placeholder(3));
 //	add(new Placeholder(4));
 //	add(new Placeholder(5));
-
 	addCustomerBtn = new JButton("Add Customer");
 	addCustomerBtn.setBounds(Tools.getModuleSize(3));
 	addCustomerBtn.setFocusable(false);
@@ -139,7 +173,28 @@ public class SleepingBarber extends JFrame {
 	new Thread(screen).start();
     }
 
-    public static BufferedImage getDisplay() {
+    public static void createMapImage() {
+	int maxX = 0;
+	int maxY = 0;
+	for (int i = 0; i < tiles.size(); i++) {
+	    if (tiles.get(i).getX() > maxX) {
+		maxX = tiles.get(i).getX();
+	    }
+	    if (tiles.get(i).getY() > maxY) {
+		maxY = tiles.get(i).getY();
+	    }
+	}
+
+	mapImage = new BufferedImage(maxX * Assets.SCALED_TILE_SIZE, maxY * Assets.SCALED_TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+	Graphics g = mapImage.getGraphics();
+
+	for (int i = 0; i < tiles.size(); i++) {
+	    g.drawImage(Assets.getTile(tiles.get(i).getId()), tiles.get(i).getX() * Assets.SCALED_TILE_SIZE, tiles.get(i).getY() * Assets.SCALED_TILE_SIZE, null);
+	}
+
+    }
+
+    public static BufferedImage getDisplay(int displaceX, int displaceY) {
 	BufferedImage img = Tools.newImage(3);
 	Graphics g = img.getGraphics();
 
@@ -148,13 +203,15 @@ public class SleepingBarber extends JFrame {
 
 	g.setColor(Color.GREEN);
 	g.fillRect(0, 0, w, h);
-	
+
+	g.drawImage(mapImage, displaceX, displaceY, null);
+
 	ArrayList<Person> ordered = new ArrayList<>();
 	while (people.size() > 0) {
 	    int minY = 10000;
 	    int pos = 0;
 	    for (int i = 0; i < people.size(); i++) {
-		if (people.get(i).getY() < minY){
+		if (people.get(i).getY() < minY) {
 		    minY = people.get(i).getY();
 		    pos = i;
 		}
@@ -162,12 +219,12 @@ public class SleepingBarber extends JFrame {
 	    ordered.add(people.get(pos));
 	    people.remove(pos);
 	}
-	
+
 	people = ordered;
 	for (int i = 0; i < people.size(); i++) {
-	    g.drawImage(people.get(i).getDisplay(), people.get(i).getX(), people.get(i).getY(), null);
+	    g.drawImage(people.get(i).getDisplay(), people.get(i).getX() + displaceX, people.get(i).getY() + displaceY, null);
 	}
-	
+
 	return img;
     }
 
@@ -184,11 +241,11 @@ public class SleepingBarber extends JFrame {
 	return img;
     }
 
-    public static BufferedImage getImage() {
+    public static BufferedImage getImage(int dx, int dy) {
 	BufferedImage img = Tools.newImage(1);
 	Graphics g = img.getGraphics();
 
-	g.drawImage(getDisplay(), 0, 0, null);
+	g.drawImage(getDisplay(dx, dy), 0, 0, null);
 	//g.drawImage(getInterface(), 0, 0, null);
 
 	return img;

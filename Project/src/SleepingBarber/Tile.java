@@ -12,7 +12,7 @@ package SleepingBarber;
 public class Tile {
 
     private int x,y;
-    int id;
+    private int id;
 
     public Tile(int x, int y, int id) {
 	this.x = x;
@@ -26,6 +26,10 @@ public class Tile {
 
     public int getY() {
 	return y;
+    }
+
+    public int getId() {
+	return id;
     }
     
     

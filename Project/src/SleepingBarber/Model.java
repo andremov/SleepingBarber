@@ -6,6 +6,7 @@
 package SleepingBarber;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**
@@ -18,24 +19,26 @@ public class Model {
     public static final int FACING_RIGHT = 1;
     public static final int FACING_LEFT = 2;
     public static final int FACING_UP = 3;
-    
-    BufferedImage hair;
-    BufferedImage head;
-    BufferedImage shirt;
-    BufferedImage pants;
+
+    Image hair;
+    Image head;
+    Image shirt;
+    Image pants;
 
     boolean walking;
     int facing;
 
     final int x = 5;
-    final int[] hairY = {1, 2, 3, 4, 5, 5, 4, 3, 2};
-    final int[] headY = {5, 6, 7, 8, 9, 9, 8, 7, 6, 5};
-    final int[] shirtY = {41, 42, 43, 44, 45, 46, 45, 44, 43, 42};
-    final int[] pantsY = {61, 61, 61, 61, 61, 61, 61, 61, 61, 61};
+    final int[] breathAnim = {1, 2, 3, 4, 5, 5, 4, 3, 2};
+    final int[] walkAnim = {1, 2, 3, 4, 5, 5, 4, 3, 2};
+    final int hairY = 0;
+    final int headY = 4;
+    final int shirtY = 45;
+    final int pantsY = 61;
     int frame;
     final int maxFrame;
 
-    public Model(BufferedImage hair, BufferedImage head, BufferedImage shirt, BufferedImage pants) {
+    public Model(Image hair, Image head, Image shirt, Image pants) {
 	this.hair = hair;
 	this.head = head;
 	this.shirt = shirt;
@@ -43,7 +46,7 @@ public class Model {
 	walking = false;
 	facing = 0;
 	frame = 0;
-	maxFrame = hairY.length * 2;
+	maxFrame = breathAnim.length * 2;
     }
 
     public void setWalking(boolean walking) {
@@ -57,16 +60,17 @@ public class Model {
     public BufferedImage getDisplay() {
 	BufferedImage img = Tools.newImage(4);
 	Graphics g = img.getGraphics();
-
-	frame += walking ? 2 : 1;
+	g.fillRect(0,0,300,300);
+	frame++;
 	frame = frame % maxFrame;
 
 	int realFrame = (int) (frame / 2);
+	int dY = walking ? walkAnim[realFrame] : breathAnim[realFrame];
 
-	g.drawImage(pants.getSubimage(facing * Assets.TILE_SIZE, 0, Assets.TILE_SIZE, Assets.TILE_SIZE), x, pantsY[realFrame], Assets.TILE_SIZE * 4, Assets.TILE_SIZE * 4, null);
-	g.drawImage(shirt.getSubimage(facing * Assets.TILE_SIZE, 0, Assets.TILE_SIZE, Assets.TILE_SIZE), x, shirtY[realFrame], Assets.TILE_SIZE * 4, Assets.TILE_SIZE * 4, null);
-	g.drawImage(head.getSubimage(facing * Assets.TILE_SIZE, 0, Assets.TILE_SIZE, Assets.TILE_SIZE), x, headY[realFrame], Assets.TILE_SIZE * 4, Assets.TILE_SIZE * 4, null);
-	g.drawImage(hair.getSubimage(facing * Assets.TILE_SIZE, 0, Assets.TILE_SIZE, Assets.TILE_SIZE), x, hairY[realFrame], Assets.TILE_SIZE * 4, Assets.TILE_SIZE * 4, null);
+	g.drawImage(pants, -(facing * Assets.SCALED_TILE_SIZE), pantsY, null);
+	g.drawImage(shirt, -(facing * Assets.SCALED_TILE_SIZE), shirtY - (dY / 2), null);
+	g.drawImage(head, -(facing * Assets.SCALED_TILE_SIZE), headY + dY, null);
+	g.drawImage(hair, -(facing * Assets.SCALED_TILE_SIZE), hairY + dY, null);
 
 	return img;
     }
