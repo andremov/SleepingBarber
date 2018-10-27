@@ -22,6 +22,10 @@ public abstract class Tools {
     public static int getInterfaceSize() {
 	return 200;
     }
+    
+    public static int getInterfacePersonModuleSize() {
+	return 50;
+    }
 
     public static Model createModel(boolean isBarber) {
 	return new Model(Assets.getHumanPart(Assets.PART_HAIR), Assets.getHumanPart(Assets.PART_HEAD), Assets.getHumanPart(Assets.PART_SHIRT), Assets.getHumanPart(Assets.PART_PANTS), isBarber);
@@ -65,6 +69,25 @@ public abstract class Tools {
 	    default:
 		return null;
 	}
+    }
+    
+    public static String randomName(boolean isBarber) {
+	String fn;
+	String ln;
+	
+	String[] fns = {
+	    "Archie", "Veronica", "Betty", "Natalie", "Hillary", "Jack", "Jill", "Raphael",
+	    "Michael", "Angel", "Xyzzy", "Leonardo", "Adam", "Alice", "Bob", "Barry", "Charlie", "Marty"
+	};
+	
+	String[] lns = {
+	    "Andrews", "Daniels", "Benson", "Lodge", "Cooper", "Smith", "Jones", "McFly", "Brown", "Black"
+	};
+	
+	fn = isBarber? "Barber" : fns[(int) (Math.random()*fns.length)];
+	ln = lns[(int) (Math.random()*lns.length)];
+	
+	return fn + " " + ln;
     }
 
     public static String joinStringArray(String[] array, boolean doNL) {

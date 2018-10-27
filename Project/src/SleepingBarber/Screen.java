@@ -17,10 +17,15 @@ import java.awt.event.MouseMotionAdapter;
  */
 public class Screen extends Canvas implements Runnable {
 
-    int dx, dy, curx, cury;
-    float dragNerf = 1.8f;
+    int mapDisplaceX, mapDisplaceY, mapCurX, mapCurY;
+    int startMapDragX = -1, startMapDragY = -1;
+    boolean draggingMap = false;
 
-    int startDragX = -1, startDragY = -1;
+    int interfaceDisplaceY, interfaceCurY;
+    int startInterfaceDragY = -1;
+    boolean draggingInterface = false;
+
+    float dragNerf = 1.8f;
 
     public Screen() {
 	setBounds(Tools.getModuleSize(1));
@@ -28,11 +33,17 @@ public class Screen extends Canvas implements Runnable {
 	addMouseMotionListener(new MouseMotionAdapter() {
 	    @Override
 	    public void mouseDragged(MouseEvent e) {
-		int moveX = e.getX() - startDragX;
-		int moveY = e.getY() - startDragY;
+		if (draggingMap) {
+		    int moveX = e.getX() - startMapDragX;
+		    int moveY = e.getY() - startMapDragY;
 
-		curx = (int) (moveX / dragNerf);
-		cury = (int) (moveY / dragNerf);
+		    mapCurX = (int) (moveX / dragNerf);
+		    mapCurY = (int) (moveY / dragNerf);
+		} else if (draggingInterface) {
+		    int moveY = e.getY() - startInterfaceDragY;
+
+		    interfaceCurY = (int) (moveY / dragNerf);
+		}
 	    }
 
 	});
@@ -41,26 +52,47 @@ public class Screen extends Canvas implements Runnable {
 
 	    @Override
 	    public void mouseReleased(MouseEvent e) {
-		int moveX = e.getX() - startDragX;
-		int moveY = e.getY() - startDragY;
+		if (draggingMap) {
+		    int moveX = e.getX() - startMapDragX;
+		    int moveY = e.getY() - startMapDragY;
 
-		curx = (int) (moveX / dragNerf);
-		cury = (int) (moveY / dragNerf);
+		    mapCurX = (int) (moveX / dragNerf);
+		    mapCurY = (int) (moveY / dragNerf);
 
-		dx += curx;
-		dy += cury;
+		    mapDisplaceX += mapCurX;
+		    mapDisplaceY += mapCurY;
 
-		startDragX = -1;
-		startDragY = -1;
+		    startMapDragX = -1;
+		    startMapDragY = -1;
 
-		curx = 0;
-		cury = 0;
+		    mapCurX = 0;
+		    mapCurY = 0;
+		} else if (draggingInterface) {
+		    int moveY = e.getY() - startInterfaceDragY;
+
+		    interfaceCurY = (int) (moveY / dragNerf);
+
+		    interfaceDisplaceY += interfaceCurY;
+
+		    startInterfaceDragY = -1;
+
+		    interfaceCurY = 0;
+		}
+
+		draggingInterface = false;
+		draggingMap = false;
 	    }
 
 	    @Override
 	    public void mousePressed(MouseEvent e) {
-		startDragX = e.getX();
-		startDragY = e.getY();
+		if (e.getX() > Tools.getInterfaceSize()) {
+		    startMapDragX = e.getX();
+		    startMapDragY = e.getY();
+		    draggingMap = true;
+		} else {
+		    startInterfaceDragY = e.getY();
+		    draggingInterface = true;
+		}
 	    }
 
 	});
@@ -73,15 +105,23 @@ public class Screen extends Canvas implements Runnable {
 
 	    Graphics g = getBufferStrategy().getDrawGraphics();
 
-	    if (curx + dx > 0) {
-		curx = -dx;
+	    if (mapCurX + mapDisplaceX > 0) {
+		mapCurX = -mapDisplaceX;
 	    }
 
-	    if (cury + dy > 0) {
-		cury = -dy;
+	    if (mapCurY + mapDisplaceY > 0) {
+		mapCurY = -mapDisplaceY;
 	    }
 
-	    g.drawImage(SleepingBarber.getImage(dx + curx, dy + cury), 0, 0, null);
+	    if (interfaceDisplaceY + interfaceCurY < 0) {
+		interfaceCurY = -interfaceDisplaceY;
+	    }
+
+	    if (interfaceDisplaceY + interfaceCurY > Tools.getInterfacePersonModuleSize() * SleepingBarber.people.size()) {
+		interfaceCurY = -interfaceDisplaceY;
+	    }
+
+	    g.drawImage(SleepingBarber.getImage(mapDisplaceX + mapCurX, mapDisplaceY + mapCurY, interfaceDisplaceY + interfaceCurY), 0, 0, null);
 
 	    getBufferStrategy().show();
 

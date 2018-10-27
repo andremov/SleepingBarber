@@ -24,29 +24,29 @@ public class Customer extends Person implements Runnable {
     public void run() {
 
 	currentState = 0;
-	System.out.println(this.id + ": Customer arrived.");
+	this.setStatus("Arriving...");
 	SleepingBarber.accessSeats.SLwait();
 
 	if (SleepingBarber.freeSeats > 0) {
 
-	    System.out.println(this.id + ": Customer sits down.");
+	    this.setStatus("Sitting down.");
 	    SleepingBarber.freeSeats -= 1;
 	    currentState = 1;
 	    SleepingBarber.custReady.SLsignal();
 	    SleepingBarber.accessSeats.SLsignal();
 
 	    currentState = 2;
-	    System.out.println(this.id + ": Customer is waiting for barber.");
+	    this.setStatus("Waiting for barber.");
 	    SleepingBarber.barberReady.SLwait();
 
-	    System.out.println(this.id + ": Customer is getting hair cut.");
+	    this.setStatus("Getting hair cut.");
 	    currentState = 4;
 
 	    currentState = 5;
-	    System.out.println(this.id + ": Customer finished hair cut.");
+	    this.setStatus("Leaving...");
 
 	} else {
-	    System.out.println(this.id + ": Customer leaves.");
+	    this.setStatus("Leaving...");
 	    currentState = 3;
 	    SleepingBarber.accessSeats.SLsignal();
 	    // TODO: leave

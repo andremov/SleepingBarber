@@ -228,25 +228,26 @@ public class SleepingBarber extends JFrame {
 	return img;
     }
 
-    public static BufferedImage getInterface() {
+    public static BufferedImage getInterface(int iy) {
 	BufferedImage img = Tools.newImage(2);
 	Graphics g = img.getGraphics();
 
 	int h = Tools.getScreenSize().height;
 	int w = Tools.getInterfaceSize();
 
-	g.setColor(Color.red);
-	g.fillRect(0, 0, w, h);
+	for (int i = 0; i < people.size(); i++) {
+	    g.drawImage(people.get(i).getInterfaceImage(),0,(i*Tools.getInterfacePersonModuleSize())-iy,null);
+	}
 
 	return img;
     }
 
-    public static BufferedImage getImage(int dx, int dy) {
+    public static BufferedImage getImage(int dx, int dy, int iy) {
 	BufferedImage img = Tools.newImage(1);
 	Graphics g = img.getGraphics();
 
 	g.drawImage(getDisplay(dx, dy), 0, 0, null);
-	//g.drawImage(getInterface(), 0, 0, null);
+	g.drawImage(getInterface(iy), 0, 0, null);
 
 	return img;
     }
