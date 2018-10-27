@@ -26,6 +26,7 @@ public class Model {
     Image pants;
 
     boolean walking;
+    boolean scissors;
     int facing;
 
     final int x = 5;
@@ -35,10 +36,14 @@ public class Model {
     final int headY = 4;
     final int shirtY = 45;
     final int pantsY = 61;
+
+    final int[] scissorsX = {20, 60, 60, 20};
+    final int scissorsY = 50;
+
     int frame;
     final int maxFrame;
 
-    public Model(Image hair, Image head, Image shirt, Image pants) {
+    public Model(Image hair, Image head, Image shirt, Image pants, boolean s) {
 	this.hair = hair;
 	this.head = head;
 	this.shirt = shirt;
@@ -46,6 +51,7 @@ public class Model {
 	walking = false;
 	facing = 0;
 	frame = 0;
+	scissors = s;
 	maxFrame = breathAnim.length * 2;
     }
 
@@ -60,17 +66,29 @@ public class Model {
     public BufferedImage getDisplay() {
 	BufferedImage img = Tools.newImage(4);
 	Graphics g = img.getGraphics();
-	g.fillRect(0,0,300,300);
+	g.fillRect(0, 0, 300, 300);
 	frame++;
 	frame = frame % maxFrame;
 
 	int realFrame = (int) (frame / 2);
 	int dY = walking ? walkAnim[realFrame] : breathAnim[realFrame];
 
+	if (scissors) {
+	    if (facing == FACING_RIGHT || facing == FACING_UP) {
+		g.drawImage(Assets.getScissors(), scissorsX[facing], scissorsY, null);
+	    }
+	}
+
 	g.drawImage(pants, -(facing * Assets.SCALED_TILE_SIZE), pantsY, null);
 	g.drawImage(shirt, -(facing * Assets.SCALED_TILE_SIZE), shirtY - (dY / 2), null);
 	g.drawImage(head, -(facing * Assets.SCALED_TILE_SIZE), headY + dY, null);
 	g.drawImage(hair, -(facing * Assets.SCALED_TILE_SIZE), hairY + dY, null);
+
+	if (scissors) {
+	    if (facing == FACING_DOWN || facing == FACING_LEFT) {
+		g.drawImage(Assets.getScissors(), scissorsX[facing], scissorsY, null);
+	    }
+	}
 
 	return img;
     }

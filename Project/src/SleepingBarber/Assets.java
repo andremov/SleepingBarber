@@ -21,6 +21,7 @@ public abstract class Assets {
 
     private static Image[] tiles;
     private static Image[][] humanParts;
+    private static Image scissors;
     private static final int[] MAX_PARTS = {12, 12, 16, 12};
 
     public static int PART_HAIR = 0;
@@ -44,6 +45,9 @@ public abstract class Assets {
 	loadedParts[1] = ImageIO.read(new File("assets/heads.png"));
 	loadedParts[2] = ImageIO.read(new File("assets/shirts.png"));
 	loadedParts[3] = ImageIO.read(new File("assets/pants.png"));
+
+	scissors = ImageIO.read(new File("assets/scissors.png"));
+	scissors = scissors.getScaledInstance((int) (SCALED_TILE_SIZE / 1.8f), (int) (SCALED_TILE_SIZE / 1.8f), 0);
 
 	// SPLIT TILESET
 	int xTiles = tileset.getWidth() / TILE_SIZE;
@@ -74,6 +78,10 @@ public abstract class Assets {
 
     public static Image getTile(int id) {
 	return tiles[id];
+    }
+
+    public static Image getScissors() {
+	return scissors;
     }
 
     public static Image getHumanPart(int id) {

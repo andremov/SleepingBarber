@@ -31,17 +31,8 @@ public class Screen extends Canvas implements Runnable {
 		int moveX = e.getX() - startDragX;
 		int moveY = e.getY() - startDragY;
 
-		if (curx + dx <= 0) {
-		    curx = (int) (moveX / dragNerf);
-		} else {
-		    curx = -dx;
-		}
-
-		if (cury + dy <= 0) {
-		    cury = (int) (moveY / dragNerf);
-		} else {
-		    cury = -dy;
-		}
+		curx = (int) (moveX / dragNerf);
+		cury = (int) (moveY / dragNerf);
 	    }
 
 	});
@@ -53,17 +44,8 @@ public class Screen extends Canvas implements Runnable {
 		int moveX = e.getX() - startDragX;
 		int moveY = e.getY() - startDragY;
 
-		if (curx + dx <= 0) {
-		    curx = (int) (moveX / dragNerf);
-		} else {
-		    curx = -dx;
-		}
-
-		if (cury + dy <= 0) {
-		    cury = (int) (moveY / dragNerf);
-		} else {
-		    cury = -dy;
-		}
+		curx = (int) (moveX / dragNerf);
+		cury = (int) (moveY / dragNerf);
 
 		dx += curx;
 		dy += cury;
@@ -90,6 +72,14 @@ public class Screen extends Canvas implements Runnable {
 	while (true) {
 
 	    Graphics g = getBufferStrategy().getDrawGraphics();
+
+	    if (curx + dx > 0) {
+		curx = -dx;
+	    }
+
+	    if (cury + dy > 0) {
+		cury = -dy;
+	    }
 
 	    g.drawImage(SleepingBarber.getImage(dx + curx, dy + cury), 0, 0, null);
 

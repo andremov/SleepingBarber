@@ -22,7 +22,7 @@ public abstract class Person {
     float remSteps;
 
     public Person(Point p) {
-	m = Tools.createModel();
+	m = Tools.createModel( this instanceof Barber );
 	this.x = p.getX();
 	this.y = p.getY();
     }

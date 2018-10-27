@@ -23,10 +23,10 @@ public abstract class Tools {
 	return 200;
     }
 
-    public static Model createModel() {
-	return new Model(Assets.getHumanPart(Assets.PART_HAIR), Assets.getHumanPart(Assets.PART_HEAD), Assets.getHumanPart(Assets.PART_SHIRT), Assets.getHumanPart(Assets.PART_PANTS));
+    public static Model createModel(boolean isBarber) {
+	return new Model(Assets.getHumanPart(Assets.PART_HAIR), Assets.getHumanPart(Assets.PART_HEAD), Assets.getHumanPart(Assets.PART_SHIRT), Assets.getHumanPart(Assets.PART_PANTS), isBarber);
     }
-
+    
     public static Dimension getWindowSize() {
 	Dimension d = getScreenSize();
 	d.height += 100;
