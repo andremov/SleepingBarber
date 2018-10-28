@@ -24,41 +24,59 @@ public class Customer extends Person implements Runnable {
 
 	currentState = 0;
 	this.setStatus("Arriving...");
+
+	while (!isReadyForAction()) {
+	    Tools.quickThreadSleep(10);
+	}
 	
-	while (!readyForAction) { }
-	
+	this.setStatus("Checking seats...");
 	SleepingBarber.accessSeats.SLwait();
+	
+	
+	Tools.quickThreadSleep(1000);
 
 	if (SleepingBarber.getNumFreeSeats() > 0) {
 
-	    this.setStatus("Sitting down.");
-	    this.setGoal(SleepingBarber.assignWaitingSeat());
+	    this.setStatus("Walking to waiting seat...");
+	    this.addGoal(SleepingBarber.assignWaitingSeat());
 	    SleepingBarber.accessSeats.SLsignal();
-	    while (!readyForAction) { }
-	    
+	    while (!isReadyForAction()) {
+		Tools.quickThreadSleep(10);
+	    }
+
 	    SleepingBarber.custReady.SLsignal();
 
+	    this.setStatus("Sitting down...");
+	    Tools.quickThreadSleep(1000);
+	
 	    this.setStatus("Waiting for barber.");
 	    SleepingBarber.barberReady.SLwait();
-
-	    this.setStatus("Walking to barber.");
-	    this.setGoal(SleepingBarber.assignBarberSeat());
-	    while (!readyForAction) { }
 	    
+	    this.setStatus("Walking to barber.");
+	    this.addGoal(SleepingBarber.toBarberTransition);
+	    this.addGoal(SleepingBarber.assignBarberSeat());
+	    while (!isReadyForAction()) {
+		Tools.quickThreadSleep(10);
+	    }
+
 	    this.setStatus("Getting hair cut.");
-	    try {
-		Thread.sleep(5000);
-	    } catch (Exception e) { }
+	    
+	    Tools.quickThreadSleep(5000);
 	    
 	    SleepingBarber.freeBarberSeat();
 	} else {
 	    SleepingBarber.accessSeats.SLsignal();
 	}
+	
 	this.setStatus("Leaving...");
-	this.setGoal(SleepingBarber.exitDoor);
-	while (!readyForAction) { }
-	this.setGoal(SleepingBarber.exitPoint);
-	while (!readyForAction) { }
+	this.addGoal(SleepingBarber.fromBarberTransition);
+	this.addGoal(SleepingBarber.exitDoor);
+	this.addGoal(SleepingBarber.exitTransition);
+	this.addGoal(SleepingBarber.exitPoint);
+	while (!isReadyForAction()) {
+	    Tools.quickThreadSleep(10);
+	}
+	
 	SleepingBarber.deleteCustomer(id);
     }
 

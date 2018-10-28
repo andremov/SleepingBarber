@@ -28,15 +28,17 @@ public class Barber extends Person implements Runnable {
 	    currentState = 1;
 	    this.setStatus("Waiting to check seats.");
 	    SleepingBarber.accessSeats.SLwait();
+	    
 	    this.setStatus("Checking seats.");
 	    SleepingBarber.freeWaitingSeat();
+	    SleepingBarber.accessSeats.SLsignal();
 
 	    currentState = 2;
 	    this.setStatus("Ready to cut hair.");
 	    SleepingBarber.barberReady.SLsignal();
-	    SleepingBarber.accessSeats.SLsignal();
 	    
-	    this.setStatus("Ready to cut hair.");
+	    this.setStatus("Cutting hair.");
+	    Tools.quickThreadSleep(10000);
 	    
 
 	}

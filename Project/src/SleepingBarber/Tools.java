@@ -16,7 +16,15 @@ import java.awt.image.BufferedImage;
 public abstract class Tools {
 
     public static Dimension getScreenSize() {
-	return new Dimension(600, 540);
+	return new Dimension(750, 540);
+    }
+    
+    public static void quickThreadSleep(int time) {
+	try {
+	    Thread.sleep(time);
+	} catch (Exception e) {
+	    
+	}
     }
 
     public static int getInterfaceSize() {
@@ -57,15 +65,15 @@ public abstract class Tools {
     public static Rectangle getModuleSize(int id) {
 	switch (id) {
 	    case 1:
-		return new Rectangle(10, 10, 600, 500);
+		return new Rectangle(10, 10, 750, 500);
 	    case 2:
-		return new Rectangle(10, 520, 125, 70);
+		return new Rectangle(10, 520, 200, 70);
 	    case 3:
-		return new Rectangle(145, 520, 160, 70);
+		return new Rectangle(220, 520, 160, 70);
 	    case 4:
-		return new Rectangle(315, 520, 160, 70);
+		return new Rectangle(390, 520, 160, 70);
 	    case 5:
-		return new Rectangle(485, 520, 125, 70);
+		return new Rectangle(560, 520, 200, 70);
 	    default:
 		return null;
 	}

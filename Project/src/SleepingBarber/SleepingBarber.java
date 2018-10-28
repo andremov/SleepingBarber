@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Comparator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -39,6 +38,12 @@ public class SleepingBarber extends JFrame {
 
     public static Point enterDoor;
     public static Point exitDoor;
+    
+    public static Point enterTransition;
+    public static Point exitTransition;
+    
+    public static Point toBarberTransition;
+    public static Point fromBarberTransition;
 
     public static ArrayList<BarberSeat> occupiedBarberSeats;
     public static ArrayList<BarberSeat> freeBarberSeats;
@@ -59,6 +64,14 @@ public class SleepingBarber extends JFrame {
 		Customer c = (Customer) people.get(i);
 		if (c.id == id) {
 		    people.remove(i);
+		}
+	    }
+	}
+	for (int i = 0; i < orderedDisplayObjects.size(); i++) {
+	    if (orderedDisplayObjects.get(i) instanceof Customer) {
+		Customer c = (Customer) orderedDisplayObjects.get(i);
+		if (c.id == id) {
+		    orderedDisplayObjects.remove(i);
 		}
 	    }
 	}
@@ -87,7 +100,7 @@ public class SleepingBarber extends JFrame {
     }
 
     public static void main(String[] args) {
-	barberReady = new Stoplight(0, Stoplight.MODE_BINARY);
+	barberReady = new Stoplight(0, Stoplight.MODE_COUNTER);
 	accessSeats = new Stoplight(1, Stoplight.MODE_BINARY);
 	custReady = new Stoplight(0, Stoplight.MODE_COUNTER);
 
@@ -108,23 +121,29 @@ public class SleepingBarber extends JFrame {
 	SleepingBarber sb = new SleepingBarber();
 
 	while (!uiReady) {
+	    Tools.quickThreadSleep(10);
 	}
 
 	sb.createBasicMap();
 	createMapImage();
 
-	enterPoint = new Point(-100, 150);
-	enterDoor = new Point(200, 150);
+	enterPoint = new Point(-100, 200);
+	enterTransition = new Point(400, 200);
+	enterDoor = new Point(400, 170);
 
-	exitPoint = new Point(800, 150);
-	exitDoor = new Point(200, 150);
+	exitDoor = new Point(450, 170);
+	exitTransition = new Point(450, 200);
+	exitPoint = new Point(800, 200);
+	
+	toBarberTransition = new Point(400, 100);
+	fromBarberTransition = new Point(580, 150);
 
-	addWaitingSeat(100, 60);
-	addWaitingSeat(150, 60);
-	addWaitingSeat(200, 60);
-	addWaitingSeat(250, 60);
+	addWaitingSeat(300, 60);
+	addWaitingSeat(370, 60);
+	addWaitingSeat(440, 60);
+	addWaitingSeat(510, 60);
 
-	addBarberSeat(320, 80);
+	addBarberSeat(600, 110);
 
 	sb.setVisible(true);
 	sb.startScreenThread();
@@ -181,9 +200,9 @@ public class SleepingBarber extends JFrame {
 //	people.add(b);
 //    }
     public void addCustomer() {
-	addCustomerBtn.setEnabled(false);
 	Customer c = new Customer(customerCount, enterPoint);
-	c.setGoal(enterDoor);
+	c.addGoal(enterTransition);
+	c.addGoal(enterDoor);
 	new Thread(c).start();
 	people.add(c);
 	customerCount++;
@@ -280,10 +299,10 @@ public class SleepingBarber extends JFrame {
 	    } else if (o2.getY() < o1.getY()) {
 		return 1;
 	    } else {
-		return 0;
+		return 1;
 	    }
 	});
-	
+
 	for (int i = 0; i < orderedDisplayObjects.size(); i++) {
 	    g.drawImage(orderedDisplayObjects.get(i).getImage(), orderedDisplayObjects.get(i).getX() + displaceX, orderedDisplayObjects.get(i).getY() + displaceY, null);
 	}

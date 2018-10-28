@@ -14,10 +14,19 @@ import java.awt.image.BufferedImage;
 public abstract class DisplayObject {
     
     protected int x, y;
+    protected int extraX, extraY;
 
     public DisplayObject(int x, int y) {
 	this.x = x;
 	this.y = y;
+	
+	if (this instanceof Point) {
+	    extraX = 0;
+	    extraY = -90;
+	} else {
+	    extraX = 0;
+	    extraY = 0;
+	}
     }
     
     public int getX() {
@@ -26,6 +35,14 @@ public abstract class DisplayObject {
 
     public int getY() {
 	return y;
+    }
+    
+    public int getDisplayX() {
+	return x+extraX;
+    }
+
+    public int getDisplayY() {
+	return y+extraY;
     }
     
     public abstract BufferedImage getImage();

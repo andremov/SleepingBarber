@@ -17,7 +17,7 @@ public class Stoplight {
     static int MODE_COUNTER = 1;
 
     private int value;
-    private int mode;
+    private final int mode;
 
     public Stoplight(int value, int mode) {
 	this.value = value;
@@ -35,6 +35,10 @@ public class Stoplight {
 	// TODO: revisa esto
 	while (value != 0) {
 	    // WAITING
+	    try {
+		Thread.sleep(10);
+	    } catch (Exception e) {
+	    }
 	}
 
 	if (mode == 0) {
@@ -57,7 +61,7 @@ public class Stoplight {
 	while (value == 0) {
 	    // WAITING
 	    try {
-		Thread.sleep(100);
+		Thread.sleep(10);
 	    } catch (Exception e) {
 	    }
 	}
