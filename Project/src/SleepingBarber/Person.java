@@ -34,8 +34,8 @@ public class Person extends DisplayObject {
 
     public Person(Point p) {
 	super(p.getX(), p.getY());
-	goals = new ArrayList<Point>();
-	model = Tools.createModel(this instanceof Barber);
+	goals = new ArrayList<>();
+	model = Assets.createHumanModel(this instanceof Barber);
 	name = Tools.randomName(this instanceof Barber);
 	status = "";
 	readyForAction = true;

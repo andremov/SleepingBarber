@@ -139,6 +139,14 @@ public class Screen extends Canvas implements Runnable {
 		mapCurY = -mapDisplaceY;
 	    }
 
+	    if (mapCurX + mapDisplaceX < SleepingBarber.maxX) {
+		mapCurX = -mapDisplaceX;
+	    }
+
+	    if (mapCurY + mapDisplaceY < SleepingBarber.maxY) {
+		mapCurY = -mapDisplaceY;
+	    }
+	    
 	    if (interfaceDisplaceY + interfaceCurY < 0) {
 		interfaceCurY = -interfaceDisplaceY;
 	    }

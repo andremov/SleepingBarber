@@ -65,6 +65,7 @@ public class Customer extends Person implements Runnable {
 	    this.setStatus("Getting hair cut.");
 	    SleepingBarber.haircutReady.SLwait();
 	    
+	    this.model.changeHair();
 	    this.model.setSitting(false);
 	    this.addGoal(SleepingBarber.fromBarberTransition);
 	} else {

@@ -58,6 +58,9 @@ public class SleepingBarber extends JFrame {
     
     public static SleepingBarber sb;
     
+    public static int maxX;
+    public static int maxY;
+    
     Screen screen;
 
     JButton addCustomerBtn;
@@ -192,12 +195,12 @@ public class SleepingBarber extends JFrame {
 //	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
 //	    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
 //	};
-	int rows = 20;
-	int columns = 20;
+	int rows = 40;
+	int columns = 40;
 
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
-		tiles.add(new Tile(j, i, 2));
+		tiles.add(new Tile(j, i, 3));
 	    }
 	}
     }
@@ -273,8 +276,8 @@ public class SleepingBarber extends JFrame {
     }
 
     public static void createMapImage() {
-	int maxX = 0;
-	int maxY = 0;
+	maxX = 0;
+	maxY = 0;
 
 	for (int i = 0; i < tiles.size(); i++) {
 	    if (tiles.get(i).getX() > maxX) {
@@ -285,11 +288,11 @@ public class SleepingBarber extends JFrame {
 	    }
 	}
 
-	mapImage = new BufferedImage(maxX * Assets.SCALED_TILE_SIZE, maxY * Assets.SCALED_TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+	mapImage = new BufferedImage(maxX * Assets.TILE_SIZE, maxY * Assets.TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
 	Graphics g = mapImage.getGraphics();
-
+	
 	for (int i = 0; i < tiles.size(); i++) {
-	    g.drawImage(Assets.getTile(tiles.get(i).getId()), tiles.get(i).getX() * Assets.SCALED_TILE_SIZE, tiles.get(i).getY() * Assets.SCALED_TILE_SIZE, null);
+	    g.drawImage(Assets.getTile(tiles.get(i).getId()), tiles.get(i).getX() * Assets.TILE_SIZE, tiles.get(i).getY() * Assets.TILE_SIZE, null);
 	}
 
     }
@@ -411,14 +414,16 @@ public class SleepingBarber extends JFrame {
 	
 	try {
 	    g.drawImage(getDisplay(dx, dy), 0, 0, null);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	
+	try {
+	    g.drawImage(getInterface(iy), 0, 0, null);
 	} catch (Exception e) {}
 	
 	try {
-	g.drawImage(getInterface(iy), 0, 0, null);
-	} catch (Exception e) {}
-	
-	try {
-	g.drawImage(getOverlay(dx,dy), 0, 0, null);
+	    g.drawImage(getOverlay(dx,dy), 0, 0, null);
 	} catch (Exception e) {}
 
 	return img;

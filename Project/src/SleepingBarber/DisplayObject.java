@@ -21,8 +21,8 @@ public abstract class DisplayObject {
 	this.y = y;
 	
 	
-	modelX = -(Assets.SCALED_TILE_SIZE/2);
-	modelY = -(Assets.SCALED_TILE_SIZE*2);
+	modelX = -(Assets.FRAME_WIDTH/2) + ((this instanceof Person)? -50 : 0);
+	modelY = -(Assets.FRAME_HEIGHT);
     }
     
     public int getX() {

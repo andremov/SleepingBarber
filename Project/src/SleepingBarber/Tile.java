@@ -11,8 +11,7 @@ package SleepingBarber;
  */
 public class Tile {
 
-    private int x,y;
-    private int id;
+    private final int x, y, id;
 
     public Tile(int x, int y, int id) {
 	this.x = x;

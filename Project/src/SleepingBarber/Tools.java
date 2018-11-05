@@ -34,10 +34,6 @@ public abstract class Tools {
     public static int getInterfacePersonModuleSize() {
 	return 50;
     }
-
-    public static Model createModel(boolean isBarber) {
-	return new Model(Assets.getHumanPart(Assets.PART_HAIR), Assets.getHumanPart(Assets.PART_HEAD), Assets.getHumanPart(Assets.PART_SHIRT), Assets.getHumanPart(Assets.PART_PANTS), isBarber);
-    }
     
     public static Dimension getWindowSize() {
 	Dimension d = getScreenSize();
@@ -56,7 +52,7 @@ public abstract class Tools {
 	    case 3:
 		return new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
 	    case 4:
-		return new BufferedImage(Assets.SCALED_TILE_SIZE, (int)(Assets.SCALED_TILE_SIZE*2.5f), BufferedImage.TYPE_INT_ARGB);
+		return new BufferedImage(Assets.FRAME_WIDTH+100, Assets.FRAME_HEIGHT+50, BufferedImage.TYPE_INT_ARGB);
 	    default:
 		return null;
 	}
