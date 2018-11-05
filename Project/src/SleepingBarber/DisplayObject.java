@@ -14,19 +14,15 @@ import java.awt.image.BufferedImage;
 public abstract class DisplayObject {
     
     protected int x, y;
-    protected int extraX, extraY;
+    protected int modelX, modelY;
 
     public DisplayObject(int x, int y) {
 	this.x = x;
 	this.y = y;
 	
-	if (this instanceof Point) {
-	    extraX = 0;
-	    extraY = -90;
-	} else {
-	    extraX = 0;
-	    extraY = 0;
-	}
+	
+	modelX = -(Assets.SCALED_TILE_SIZE/2);
+	modelY = -(Assets.SCALED_TILE_SIZE*2);
     }
     
     public int getX() {
@@ -38,11 +34,11 @@ public abstract class DisplayObject {
     }
     
     public int getDisplayX() {
-	return x+extraX;
+	return x+modelX;
     }
 
     public int getDisplayY() {
-	return y+extraY;
+	return y+modelY;
     }
     
     public abstract BufferedImage getImage();

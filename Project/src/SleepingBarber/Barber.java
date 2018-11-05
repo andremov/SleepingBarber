@@ -11,8 +11,6 @@ package SleepingBarber;
  */
 public class Barber extends Person implements Runnable {
 
-    int currentState;
-
     public Barber(Point p) {
 	super(p);
     }
@@ -21,11 +19,9 @@ public class Barber extends Person implements Runnable {
     public void run() {
 	while (true) {
 
-	    currentState = 0;
 	    this.setStatus("Waiting for customers.");
 	    SleepingBarber.custReady.SLwait();
 
-	    currentState = 1;
 	    this.setStatus("Waiting to check seats.");
 	    SleepingBarber.accessSeats.SLwait();
 	    
@@ -33,13 +29,18 @@ public class Barber extends Person implements Runnable {
 	    SleepingBarber.freeWaitingSeat();
 	    SleepingBarber.accessSeats.SLsignal();
 
-	    currentState = 2;
 	    this.setStatus("Ready to cut hair.");
 	    SleepingBarber.barberReady.SLsignal();
+	    
+	    
+	    this.setStatus("Waiting for customer to sit.");
+	    SleepingBarber.animReady.SLwait();
 	    
 	    this.setStatus("Cutting hair.");
 	    Tools.quickThreadSleep(10000);
 	    
+	    SleepingBarber.haircutReady.SLsignal();
+	    SleepingBarber.freeBarberSeat();
 
 	}
     }

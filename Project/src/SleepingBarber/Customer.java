@@ -58,18 +58,16 @@ public class Customer extends Person implements Runnable {
 	    while (!isReadyForAction()) {
 		Tools.quickThreadSleep(10);
 	    }
-
+	    SleepingBarber.animReady.SLsignal();
+	    
 	    this.setStatus("Getting hair cut.");
-	    
-	    Tools.quickThreadSleep(5000);
-	    
-	    SleepingBarber.freeBarberSeat();
+	    SleepingBarber.haircutReady.SLwait();
+	    this.addGoal(SleepingBarber.fromBarberTransition);
 	} else {
 	    SleepingBarber.accessSeats.SLsignal();
 	}
 	
 	this.setStatus("Leaving...");
-	this.addGoal(SleepingBarber.fromBarberTransition);
 	this.addGoal(SleepingBarber.exitDoor);
 	this.addGoal(SleepingBarber.exitTransition);
 	this.addGoal(SleepingBarber.exitPoint);
