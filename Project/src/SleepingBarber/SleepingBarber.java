@@ -307,9 +307,12 @@ public class SleepingBarber extends JFrame {
 	g.drawImage(mapImage, displaceX, displaceY, null);
 
 	orderedDisplayObjects.sort((DisplayObject o1, DisplayObject o2) -> {
-	    if (o1.getY() < o2.getY()) {
+	    int y1 = o1.getY() + (o1 instanceof Person? 80 : 0);
+	    int y2 = o2.getY() + (o2 instanceof Person? 80 : 0);
+	    
+	    if (y1 < y2) {
 		return -1;
-	    } else if (o2.getY() < o1.getY()) {
+	    } else if (y2 < y1) {
 		return 1;
 	    } else {
 		return 1;

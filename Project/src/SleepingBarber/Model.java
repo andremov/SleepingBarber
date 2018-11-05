@@ -27,6 +27,7 @@ public class Model {
 
     boolean walking;
     boolean scissors;
+    boolean sitting;
     int facing;
 
     final int x = 5;
@@ -61,6 +62,13 @@ public class Model {
 
     public void setFacing(int facing) {
 	this.facing = facing;
+    }
+
+    public void setSitting(boolean sitting) {
+	this.sitting = sitting;
+	if (sitting) {
+	    facing = FACING_DOWN;
+	}
     }
 
     public BufferedImage getDisplay() {

@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 public abstract class DisplayObject {
     
     protected int x, y;
-    protected int modelX, modelY;
+    private final int modelX, modelY;
 
     public DisplayObject(int x, int y) {
 	this.x = x;

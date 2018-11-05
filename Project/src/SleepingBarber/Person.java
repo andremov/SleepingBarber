@@ -22,7 +22,7 @@ public class Person extends DisplayObject {
     private final Color darkRed = new Color(227, 95, 52);
     private final Color lightRed = new Color(236, 119, 120);
 
-    private final Model m;
+    protected final Model model;
     private ArrayList<Point> goals;
     private final float walkingSpeed = 7.3f;
     private float xStep, yStep;
@@ -35,7 +35,7 @@ public class Person extends DisplayObject {
     public Person(Point p) {
 	super(p.getX(), p.getY());
 	goals = new ArrayList<Point>();
-	m = Tools.createModel(this instanceof Barber);
+	model = Tools.createModel(this instanceof Barber);
 	name = Tools.randomName(this instanceof Barber);
 	status = "";
 	readyForAction = true;
@@ -70,23 +70,23 @@ public class Person extends DisplayObject {
 
 	if (Math.abs(dX) > Math.abs(dY)) {
 	    if (dX > 0) {
-		m.facing = Model.FACING_RIGHT;
+		model.facing = Model.FACING_RIGHT;
 	    } else {
-		m.facing = Model.FACING_LEFT;
+		model.facing = Model.FACING_LEFT;
 	    }
 	} else {
 	    if (dY > 0) {
-		m.facing = Model.FACING_DOWN;
+		model.facing = Model.FACING_DOWN;
 	    } else {
-		m.facing = Model.FACING_UP;
+		model.facing = Model.FACING_UP;
 	    }
 	}
-	m.walking = true;
+	model.walking = true;
     }
 
     private void update() {
 	if (goals.isEmpty()) {
-	    m.walking = false;
+	    model.walking = false;
 	    setReadyForAction(true);
 	    return;
 	}
@@ -137,7 +137,7 @@ public class Person extends DisplayObject {
     @Override
     public BufferedImage getImage() {
 	update();
-	return m.getDisplay();
+	return model.getDisplay();
     }
 
     /**

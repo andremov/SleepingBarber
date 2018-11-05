@@ -37,8 +37,10 @@ public class Barber extends Person implements Runnable {
 	    SleepingBarber.animReady.SLwait();
 	    
 	    this.setStatus("Cutting hair.");
+	    this.model.setFacing(Model.FACING_UP);
 	    Tools.quickThreadSleep(10000);
 	    
+	    this.model.setFacing(Model.FACING_DOWN);
 	    SleepingBarber.haircutReady.SLsignal();
 	    SleepingBarber.freeBarberSeat();
 

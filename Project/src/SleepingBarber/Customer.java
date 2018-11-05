@@ -43,15 +43,16 @@ public class Customer extends Person implements Runnable {
 	    while (!isReadyForAction()) {
 		Tools.quickThreadSleep(10);
 	    }
-
+	    
 	    SleepingBarber.custReady.SLsignal();
-
+	    this.model.setSitting(true);
 	    this.setStatus("Sitting down...");
 	    Tools.quickThreadSleep(1000);
 	
 	    this.setStatus("Waiting for barber.");
 	    SleepingBarber.barberReady.SLwait();
 	    
+	    this.model.setSitting(false);
 	    this.setStatus("Walking to barber.");
 	    this.addGoal(SleepingBarber.toBarberTransition);
 	    this.addGoal(SleepingBarber.assignBarberSeat());
@@ -60,8 +61,11 @@ public class Customer extends Person implements Runnable {
 	    }
 	    SleepingBarber.animReady.SLsignal();
 	    
+	    this.model.setSitting(true);
 	    this.setStatus("Getting hair cut.");
 	    SleepingBarber.haircutReady.SLwait();
+	    
+	    this.model.setSitting(false);
 	    this.addGoal(SleepingBarber.fromBarberTransition);
 	} else {
 	    SleepingBarber.accessSeats.SLsignal();
