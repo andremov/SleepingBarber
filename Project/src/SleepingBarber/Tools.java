@@ -6,6 +6,8 @@
 package SleepingBarber;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -40,6 +42,17 @@ public abstract class Tools {
 	d.height += 100;
 	d.width += 36;
 	return d;
+    }
+    
+    public static BufferedImage scaleImage(BufferedImage original, float scale) {
+	int newW = (int)(original.getWidth()*scale);
+	int newH = (int)(original.getHeight()*scale);
+	Image a = original.getScaledInstance(newW, newH, 0);
+	BufferedImage result = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+	Graphics g = result.getGraphics();
+	g.drawImage(a,0,0,null);
+	
+	return result;
     }
 
     public static BufferedImage newImage(int id) {

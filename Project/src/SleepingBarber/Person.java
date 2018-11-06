@@ -24,7 +24,7 @@ public class Person extends DisplayObject {
 
     protected final Model model;
     private ArrayList<Point> goals;
-    private final float walkingSpeed = 7.3f;
+    private final float walkingSpeed = 9f;
     private float xStep, yStep;
     private float remSteps;
     private boolean readyForAction;

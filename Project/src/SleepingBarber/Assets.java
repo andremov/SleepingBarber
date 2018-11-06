@@ -110,7 +110,7 @@ public abstract class Assets {
     }
 
     public static BufferedImage getTile(int id) {
-	return tiles[id];
+	return Tools.scaleImage(tiles[id],2);
     }
 
     public static BufferedImage getScissors() {

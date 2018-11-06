@@ -96,6 +96,10 @@ public class Model {
     public BufferedImage getDisplay() {
 	BufferedImage img = Tools.newImage(4);
 	Graphics g = img.getGraphics();
+	
+	if (sitting) {
+	    facing = FACING_DOWN;
+	}
 
 	if (this.walking) {
 	    curFrame++;
@@ -130,7 +134,8 @@ public class Model {
 	    }
 	}
 
-	return img;
+	
+	return Tools.scaleImage(img, 2);
     }
 
 }

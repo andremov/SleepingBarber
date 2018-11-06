@@ -130,7 +130,10 @@ public class Screen extends Canvas implements Runnable {
 	while (true) {
 
 	    Graphics g = getBufferStrategy().getDrawGraphics();
-
+	    
+//	    System.out.println(mapCurX + mapDisplaceX);
+	    mapCurX = 0;
+	    mapDisplaceX = 0;
 	    if (mapCurX + mapDisplaceX > 0) {
 		mapCurX = -mapDisplaceX;
 	    }
@@ -139,12 +142,12 @@ public class Screen extends Canvas implements Runnable {
 		mapCurY = -mapDisplaceY;
 	    }
 
-	    if (mapCurX + mapDisplaceX < SleepingBarber.maxX) {
-		mapCurX = -mapDisplaceX;
+	    if (mapCurX + mapDisplaceX < -SleepingBarber.maxX) {
+		mapCurX = -SleepingBarber.maxX-mapDisplaceX;
 	    }
 
-	    if (mapCurY + mapDisplaceY < SleepingBarber.maxY) {
-		mapCurY = -mapDisplaceY;
+	    if (mapCurY + mapDisplaceY < -SleepingBarber.maxY) {
+		mapCurY = -SleepingBarber.maxY-mapDisplaceY;
 	    }
 	    
 	    if (interfaceDisplaceY + interfaceCurY < 0) {

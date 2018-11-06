@@ -12,10 +12,10 @@ import java.awt.image.BufferedImage;
  *
  * @author Andrés Movilla
  */
-public class WaitingSeat extends Point {
+public class WaitingSeat extends Seat {
     
-    public WaitingSeat(int x, int y) {
-	super(x, y);
+    public WaitingSeat(int x, int y, int id) {
+	super(x, y,id);
     }
     
     @Override
@@ -25,7 +25,6 @@ public class WaitingSeat extends Point {
 	
 	g.drawImage(Assets.getWaitingChair(), 0, 0, null);
 
-	return img;
+	return Tools.scaleImage(img, 2);
     }
-    
 }

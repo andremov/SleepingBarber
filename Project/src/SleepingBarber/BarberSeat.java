@@ -12,10 +12,11 @@ import java.awt.image.BufferedImage;
  *
  * @author Andrés Movilla
  */
-public class BarberSeat extends Point {
+public class BarberSeat extends Seat {
 
-    public BarberSeat(int x, int y) {
-	super(x, y);
+    
+    public BarberSeat(int x, int y, int id) {
+	super(x, y, id);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class BarberSeat extends Point {
 
 	g.drawImage(Assets.getBarberChair(), 0, 0, null);
 
-	return img;
+	return Tools.scaleImage(img, 2);
     }
 
 }

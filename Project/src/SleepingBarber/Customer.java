@@ -5,6 +5,9 @@
  */
 package SleepingBarber;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author andresmovilla
@@ -13,6 +16,7 @@ public class Customer extends Person implements Runnable {
 
     int currentState;
     int id;
+    int sittingChairId;
 
     public Customer(int id, Point p) {
 	super(p);
@@ -38,7 +42,9 @@ public class Customer extends Person implements Runnable {
 	if (SleepingBarber.getNumFreeSeats() > 0) {
 
 	    this.setStatus("Walking to waiting seat...");
-	    this.addGoal(SleepingBarber.assignWaitingSeat());
+	    Seat ws = SleepingBarber.assignWaitingSeat();
+	    this.addGoal(ws);
+	    this.sittingChairId = ws.getId();
 	    SleepingBarber.accessSeats.SLsignal();
 	    while (!isReadyForAction()) {
 		Tools.quickThreadSleep(10);
@@ -50,7 +56,9 @@ public class Customer extends Person implements Runnable {
 	    Tools.quickThreadSleep(1000);
 	
 	    this.setStatus("Waiting for barber.");
+	    
 	    SleepingBarber.barberReady.SLwait();
+	    SleepingBarber.freeWaitingSeat(sittingChairId);
 	    
 	    this.model.setSitting(false);
 	    this.setStatus("Walking to barber.");
