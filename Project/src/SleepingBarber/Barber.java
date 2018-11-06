@@ -21,7 +21,8 @@ public class Barber extends Person implements Runnable {
     @Override
     public void run() {
 	while (true) {
-
+	    
+	    model.sitting = true;
 	    this.setStatus("Waiting for customers.");
 	    SleepingBarber.custReady.SLwait();
 
@@ -39,6 +40,7 @@ public class Barber extends Person implements Runnable {
 	    this.setStatus("Waiting for customer to sit.");
 	    SleepingBarber.animReady.SLwait();
 	    
+	    model.sitting = false;
 	    this.setStatus("Cutting hair.");
 	    this.model.setFacing(Model.FACING_UP);
 	    Tools.quickThreadSleep(10000);

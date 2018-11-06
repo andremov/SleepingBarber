@@ -9,26 +9,30 @@ import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author Andrés Movilla
  */
-public class Placeholder extends JPanel {
+public class Property extends JPanel {
+    
 
-    public Placeholder(int moduleNumber) {
+    public Property(int moduleNumber) {
 	setBounds(Tools.getModuleSize(moduleNumber));
 	setLayout(null);
 	setOpaque(true);
 	setBorder(BorderFactory.createLineBorder(Color.black, 2, true));
 	setBackground(new Color(172, 195, 210));
-
-//	JLabel lb = new JLabel(moduleNumber+"");
-//	lb.setLocation(10,10);
-//	lb.setSize(100,50);
-//	add(lb);
+	
+	JTextArea lb = new JTextArea("Cristhyan De Marchena\nAndrés Movilla");
+	lb.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,15));
+	lb.setEditable(false);
+	lb.setOpaque(false);
+	lb.setLocation(10,10);
+	lb.setSize(250,50);
+	add(lb);
 
 	setVisible(true);
     }
-    
 }

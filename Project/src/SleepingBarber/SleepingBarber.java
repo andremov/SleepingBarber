@@ -280,7 +280,7 @@ public class SleepingBarber extends JFrame {
 	setLocationRelativeTo(null);
 	setResizable(false);
 	setLayout(null);
-	setTitle("Sleeping Barber Problem");
+	setTitle("Sleeping Barber Problem - Cristhyan De Marchena, Andrés Movilla");
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	initUI();
@@ -295,6 +295,9 @@ public class SleepingBarber extends JFrame {
 //	add(new Placeholder(3));
 //	add(new Placeholder(4));
 //	add(new Placeholder(5));
+
+	add(new Property(5));
+	
 	addCustomerBtn = new JButton("Add Customer");
 	addCustomerBtn.setBounds(Tools.getModuleSize(3));
 	addCustomerBtn.setFocusable(false);

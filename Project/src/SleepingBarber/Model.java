@@ -133,6 +133,12 @@ public class Model {
 		g.drawImage(Assets.getScissors(), scissorsX[facing], scissorsY, null);
 	    }
 	}
+	
+	if (scissors && sitting) {
+	    g.setColor(new java.awt.Color(180,180,255));
+	    g.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,15));
+	    g.drawString("Zzz...",50,hairDisplace*2);
+	}
 
 	
 	return Tools.scaleImage(img, 2);
