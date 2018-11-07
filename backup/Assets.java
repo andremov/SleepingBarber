@@ -5,14 +5,14 @@
  */
 package SleepingBarber;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author Andrés Movilla
  */
 public abstract class Assets {
 

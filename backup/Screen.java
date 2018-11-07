@@ -14,9 +14,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author Andrés Movilla
  */
 public class Screen extends Canvas implements Runnable {
 

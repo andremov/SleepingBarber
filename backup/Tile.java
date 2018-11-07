@@ -6,9 +6,8 @@
 package SleepingBarber;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author Andrés Movilla
  */
 public class Tile {
 

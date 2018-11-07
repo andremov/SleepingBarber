@@ -7,12 +7,12 @@ package SleepingBarber;
 
 import java.awt.Color;
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
- * @author Andrés Movilla
+ * 
+ * @author Cristhyan De Marchena    - 200082385
+ * @author Andrés Movilla           - 200081896
  */
 public class Placeholder extends JPanel {
 

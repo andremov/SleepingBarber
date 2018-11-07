@@ -8,9 +8,8 @@ package SleepingBarber;
 import java.awt.Color;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author andresmovilla
  */
 public class Stoplight {
 

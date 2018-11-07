@@ -7,13 +7,13 @@ package SleepingBarber;
 
 import java.awt.Color;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author Andrés Movilla
  */
 public class Property extends JPanel {
     

@@ -14,9 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author andresmovilla
  */
 public class SleepingBarber extends JFrame {
 
@@ -90,14 +89,14 @@ public class SleepingBarber extends JFrame {
 	sb.createBasicMap();
 	createMapImage();
 
-	enterPoint = new Point(-20, 480);
-	exitPoint = new Point(800, 480);
+	enterPoint = new Point(-20, 600);
+	exitPoint = new Point(800, 600);
 
-	enterTransition = new Point(360, 480);
-	exitTransition = new Point(450, 480);
+	enterTransition = new Point(360, 600);
+	exitTransition = new Point(450, 600);
 
-	enterDoor = new Point(360, 380);
-	exitDoor = new Point(450, 380);
+	enterDoor = new Point(360, 500);
+	exitDoor = new Point(450, 500);
 
 	toBarberTransition = new Point(400, 300);
 	fromBarberTransition = new Point(530, 330);
@@ -133,7 +132,6 @@ public class SleepingBarber extends JFrame {
 	}
     }
 
-    /*
     private static int findSeatIndex(int id) {
 	for (int i = 0; i < seats.size(); i++) {
 	    if (seats.get(i).getId() == id) {
@@ -142,7 +140,6 @@ public class SleepingBarber extends JFrame {
 	}
 	return -1;
     }
-    */
 
     private static Seat findSeat(int id) {
 	for (int i = 0; i < seats.size(); i++) {

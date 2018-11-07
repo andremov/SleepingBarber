@@ -9,8 +9,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- *
- * @author Andrés Movilla
+ * 
+ * @author Cristhyan De Marchena    - 200082385
+ * @author Andrés Movilla           - 200081896
  */
 public class WaitingSeat extends Seat {
     

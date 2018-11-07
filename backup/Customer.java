@@ -5,10 +5,12 @@
  */
 package SleepingBarber;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author andresmovilla
  */
 public class Customer extends Person implements Runnable {
 

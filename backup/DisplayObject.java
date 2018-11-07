@@ -8,9 +8,8 @@ package SleepingBarber;
 import java.awt.image.BufferedImage;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author Andrés Movilla
  */
 public abstract class DisplayObject {
     

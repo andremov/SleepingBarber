@@ -7,32 +7,28 @@ package SleepingBarber;
 
 import java.awt.Color;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author Andrés Movilla
  */
-public class Property extends JPanel {
-    
+public class Placeholder extends JPanel {
 
-    public Property(int moduleNumber) {
+    public Placeholder(int moduleNumber) {
 	setBounds(Tools.getModuleSize(moduleNumber));
 	setLayout(null);
 	setOpaque(true);
 	setBorder(BorderFactory.createLineBorder(Color.black, 2, true));
 	setBackground(new Color(172, 195, 210));
-	
-	JTextArea lb = new JTextArea("Cristhyan De Marchena\nAndrés Movilla");
-	lb.setFont(new java.awt.Font("Arial",java.awt.Font.BOLD,15));
-	lb.setEditable(false);
-	lb.setOpaque(false);
-	lb.setLocation(10,10);
-	lb.setSize(250,50);
-	add(lb);
+
+//	JLabel lb = new JLabel(moduleNumber+"");
+//	lb.setLocation(10,10);
+//	lb.setSize(100,50);
+//	add(lb);
 
 	setVisible(true);
     }
+    
 }

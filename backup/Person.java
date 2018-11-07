@@ -11,9 +11,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author Andrés Movilla
  */
 public class Person extends DisplayObject {
 

@@ -9,25 +9,22 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- * 
- * @author Cristhyan De Marchena    - 200082385
- * @author Andrés Movilla           - 200081896
+ *
+ * @author Andrés Movilla
  */
-public class BarberSeat extends Seat {
-
+public class WaitingSeat extends Seat {
     
-    public BarberSeat(int x, int y, int id) {
-	super(x, y, id);
+    public WaitingSeat(int x, int y, int id) {
+	super(x, y,id);
     }
-
+    
     @Override
     public BufferedImage getImage() {
 	BufferedImage img = Tools.newImage(4);
 	Graphics g = img.getGraphics();
-
-	g.drawImage(Assets.getBarberChair(), 0, 0, null);
+	
+	g.drawImage(Assets.getWaitingChair(), 0, 0, null);
 
 	return Tools.scaleImage(img, 2);
     }
-
 }
